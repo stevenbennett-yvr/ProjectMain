@@ -1,0 +1,74 @@
+[
+    {"school" : [
+        {   
+            "schoolName": "BCIT",
+            "studentBody": [
+                {
+                    "studentNumber": "A01294098",
+                    "firstName": "Luke",
+                    "lastName": "Birol",
+                    "courses" :[
+                        {
+                            "courseName":"ACIT 1515", 
+                            "grade" : 100
+                        },
+                        {
+                            "courseName":"ACIT 2515",
+                            "grade" : 100
+                        }
+                    ]
+                },
+                {
+                    "studentNumber": "A00000000",
+                    "firstName": "No",
+                    "lastName": "Name",
+                    "courses" :[
+                        {
+                            "courseName":"ACIT 1515", 
+                            "grade" : 0
+                        },
+                        {
+                            "courseName":"ACIT 2515",
+                            "grade" : 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {   
+            "schoolName": "NotBCIT",
+            "studentBody": [
+                {
+                    "studentID": "01294098Z",
+                    "firstName": "notLuke",
+                    "lastName": "notBirol",
+                    "courses" :[
+                        {
+                            "courseName":"PCIT 1505", 
+                            "grade" : 100
+                        },
+                        {
+                            "courseName":"PCIT 2505",
+                            "grade" : 100
+                        }
+                    ]
+                },
+                {
+                    "studentID": "00000000Z",
+                    "firstName": "Not",
+                    "lastName": "NoName",
+                    "courses" :[
+                        {
+                            "courseName":"PCIT 1505", 
+                            "grade" : 0
+                        },
+                        {
+                            "courseName":"PCIT 2505",
+                            "grade" : 0
+                        }
+                    ]
+                }
+            ]
+        }
+    ]}
+]

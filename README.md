@@ -2,5 +2,7 @@
 
 <!-- Luke -->
 <!-- Braeden Venne-->
-<!-- Conflict -->
+<!-- Allen Li-->
 <!-- Dastan -->
+<!-- Harkaran -->
+<!-- Steven -->
