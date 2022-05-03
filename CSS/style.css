@@ -1,7 +1,63 @@
 h1 {
-    font-family: 'Roboto', sans-serif;
 }
 
 label {
     font-family: 'Roboto Slab', serif;
+}
+
+:root {
+    --not-white: #fffaf3;
+    --drk-white: #f2e9e1;
+    --not-black: #191724;
+    --not-red:   #eb6f92;
+    --not-blue:  #31748f;
+    --not-green: #56949f;
+    --not-grey:  #393552;
+    --muted:     #6e6a86;
+    --hdr-hght:  5rem;
+    --lrg-txt:   3.5rem;
+    --sml-txt:  1.5rem;
+  }
+
+html {
+    background-color: var(--drk-white);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: var(--lrg-txt);
+    color: var(--not-black);
+    font-family: 'Roboto', sans-serif;
+}
+
+.textBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: var(--sml-txt);
+}
+
+.textBox label {
+    padding-top: 30px;
+    color: var(--not-black);
+}
+
+#schoolName, #studentNumber {
+    border-radius: 4px;
+    border: solid var(--not-black);
+    width: 150%;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    font-size: 1.5rem;
+    color: var(--not-black);
 }

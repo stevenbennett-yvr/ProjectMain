@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <title>GPA Demo - Desig9 by Deadline</title>
+</head>
+<header align="center" style="max-width: 500px; margin-left: auto; margin-right: auto">
+    <div style="color: black; border: 5px solid black; border-radius: 30px; display: inline-block; background: white">
+        <br><br>
+        <i><h3>Instructions</h3>
+    <h5><p>Tap/Click each space and input your grades as numbers (No percentage sign).</p></h5></i>
+      <br>
+         <div class="alert">
+            {% if final_gpa %} <b> {{ final_gpa }} </b> {% else %} 0.0
+            {% endif %}
+        </div>
+        <br>
+        <br>
+            <fieldset class="form-group">
+                <form action="/demo" method="POST">
+                    <div>
+                    <label for="course1">
+                        Course 1:
+                    </label>
+                    <input
+                    type="text"
+                    placeholder="  100"
+                    class="u-full-width"
+                    name="course1"
+                    >
+                    </div>
+
+                    <div>
+                    <label for="course2">
+                        Course 2:
+                    </label>
+                    <input
+                    type="text"
+                    placeholder="  100"
+                    class="u-full-width"
+                    name="course2"
+                    >
+                    </div>
+
+                    <div>
+                    <label for="course3">
+                        Course 3:
+                    </label>
+                    <input
+                    type="text"
+                    placeholder="  100"
+                    class="u-full-width"
+                    name="course3"
+                    >
+                    </div>
+
+                    <div>
+                    <label for="course4">
+                        Course 4:
+                    </label>
+                    <input
+                    type="text"
+                    placeholder="  100"
+                    class="u-full-width"
+                    name="course4"
+                    >
+                    </div>
+
+            <hr>
+            <div class="form-group">
+
+                <div>
+                    <label for="course5">
+                        Course 4:
+                    </label>
+                    <input
+                    type="text"
+                    placeholder="  100"
+                    class="u-full-width"
+                    name="course5"
+                    >
+                </div>
+
+                <div>
+                    <label for="course6">
+                        Course 6:
+                    </label>
+                    <input
+                    type="text"
+                    placeholder="  100"
+                    class="u-full-width"
+                    name="course6"
+                    >
+                </div>
+
+                <div>
+                    <label for="course7">
+                        Course 7:
+                    </label>
+                    <input
+                    type="text"
+                    placeholder="  100"
+                    class="u-full-width"
+                    name="course7"
+                    >
+                </div>
+
+                <div>
+                    <label for="course8">
+                        Course 8:
+                    </label>
+                    <input
+                    type="text"
+                    placeholder="  100"
+                    class="u-full-width"
+                    name="course8"
+                    >
+                </div>
+
+            </div>
+          <input type="submit" value="Calculate" id="calc_button" />
+                </form>
+                </fieldset>
+
+        <br><br><br>
+    <br>
+    </div>
+  </header>
+
+  <br>
