@@ -37,7 +37,3 @@ def calculation(grade):
 
     else:
         calculation.grade = 0
-
-calculation(90)
-grade2 = calculation.grade
-print(grade2)

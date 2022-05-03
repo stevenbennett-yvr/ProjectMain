@@ -13,10 +13,6 @@ def homepage():
     return render_template("index.html"), 200
 
 @app.route('/demo', methods=['GET', 'POST'])
-def demo_page():
-    return render_template('demo.html', title='Demo')
-
-@app.route('/send', methods=['POST'])
 def send():
     if request.method == 'POST':
         grades = list()
@@ -63,7 +59,6 @@ def send():
 
         final_grade = sum(grades)/len(grades)
         final_gpa = round(final_grade, 2)
-
 
         return render_template('demo.html', title='Demo', final_gpa = final_gpa)
     else:
