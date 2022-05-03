@@ -1,3 +1,10 @@
+h1 {
+}
+
+label {
+    font-family: 'Roboto Slab', serif;
+}
+
 :root {
     --not-white: #fffaf3;
     --drk-white: #f2e9e1;
@@ -25,6 +32,7 @@ body {
 h1 {
     font-size: var(--lrg-txt);
     color: var(--not-black);
+    font-family: 'Roboto', sans-serif;
 }
 
 .textBox {
