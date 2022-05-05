@@ -30,7 +30,7 @@ def index():
             total.append(gpa)
         final_grade = sum(total)/len(total)
         final_gpa = round(final_grade, 2)
-        return render_template('submit.html', username=form.username.data, gpa=final_gpa, grades=total, form=form)
+        return render_template('test.html', username=form.username.data, gpa=final_gpa, grades=total, form=form)
     return render_template('test.html', form=form)
 
 
