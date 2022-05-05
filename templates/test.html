@@ -1,0 +1,45 @@
+<!-- templates/index.html  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask dynamic WTF forms</title>
+</head>
+<body>
+    <h1 style="text-align: center;">My grades</h1>
+    <form method="POST" action="">
+        {{ form.csrf_token }}
+        {{form.username.label}}
+        {{ form.username() }} <br>
+        <h3>Grades List</h3>
+        {{ form.grades.label }}
+        {{ form.grades() }}
+        <button type="submit">Post grades</button>
+        <button id='add-grade-field' type="button">Add new grade</button>
+    </form>
+</body>
+</html>
+<script>
+    window.onload = function() {
+        let addgradeFieldBtn = document.getElementById('add-grade-field');
+        addgradeFieldBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            let allgradesFieldWrapper = document.getElementById('grades');
+            let allgradesField = allgradesFieldWrapper.getElementsByTagName('input');
+            if(allgradesField.length > 9) {
+                alert('You can  have only five grades name');
+                return;
+            }
+            let gradeInputIds = []
+            for(let i = 0; i < allgradesField.length; i++) {
+                gradeInputIds.push(parseInt(allgradesField[i].name.split('-')[1]));
+            }
+            let newFieldName = `grades-${Math.max(...gradeInputIds) + 1}`;
+            allgradesFieldWrapper.insertAdjacentHTML('beforeend',`
+            <li><label for="${newFieldName}">grade Name</label> <input id="${newFieldName}" name="${newFieldName}" type="text" value=""></li> 
+            `);
+        });
+    }
+</script>
