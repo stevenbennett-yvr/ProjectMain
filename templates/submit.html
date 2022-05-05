@@ -1,9 +1,0 @@
-<h1 style="text-align: center;">My grades</h1>
-<form method="POST" action="">
-    {{ form.csrf_token }}
-    {{ username }}
-    {{ gpa }}
-    <h3>Grades List</h3>
-    {%for grade in grades%}
-    <li>{{grade}}</li>
-{%endfor%}
