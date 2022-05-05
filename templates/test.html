@@ -29,7 +29,7 @@
             let allgradesFieldWrapper = document.getElementById('grades');
             let allgradesField = allgradesFieldWrapper.getElementsByTagName('input');
             if(allgradesField.length > 9) {
-                alert('You can  have only five grades name');
+                alert('You can have only ten grades');
                 return;
             }
             let gradeInputIds = []
@@ -38,7 +38,7 @@
             }
             let newFieldName = `grades-${Math.max(...gradeInputIds) + 1}`;
             allgradesFieldWrapper.insertAdjacentHTML('beforeend',`
-            <li><label for="${newFieldName}">grade Name</label> <input id="${newFieldName}" name="${newFieldName}" type="text" value=""></li> 
+            <li><label for="${newFieldName}">Grade</label> <input id="${newFieldName}" name="${newFieldName}" type="text" value=""></li> 
             `);
         });
     }
