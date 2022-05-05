@@ -11,15 +11,18 @@
 <body align="center" style="max-width: 500px; margin-left: auto; margin-right: auto">
         <h1 style="text-align: center;">My grades</h1>
     <form method="POST" action="">
+
         {{ form.csrf_token }}
         {{form.username.label}}
         {{ form.username() }} <br>
         <h3>Grades List</h3>
         {{ form.grades.label }}
-        {{ form.courses() }}
-        {{ form.grades() }}
+            {{ form.courses() }}
+            {{ form.grades() }}
         <button type="submit">Post grades</button>
-        <button id='add-course-field' type="button">Add new course</button>
+        <button id='add-course-field' type="button">Add course</button>
+        <button id='remove-course-field' type="button">Remove course</button>
+
     </form>
     <hr>
 
@@ -70,6 +73,14 @@
             allcoursesFieldWrapper.insertAdjacentHTML('beforeend',`
             <li><label for="${newFieldCourse}">Course</label> <input id="${newFieldCourse}" name="${newFieldCourse}" type="text" value=""></li> 
             `);
+        });
+        let removegradeFieldBtn = document.getElementById('remove-course-field');
+        removegradeFieldBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            var select = document.getElementById('courses');
+            select.removeChild(select.lastChild);
+            var select = document.getElementById('grades');
+            select.removeChild(select.lastChild);
         });
     }
 </script>

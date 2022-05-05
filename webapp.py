@@ -24,13 +24,14 @@ def index():
     form = GradesForm()
     if form.validate_on_submit():
         grades = form.grades.data
+        courses = form.courses.data
         total = list()
         for grade in grades:
             gpa = calculation(grade)
             total.append(gpa)
         final_grade = sum(total)/len(total)
         final_gpa = round(final_grade, 2)
-        return render_template('test.html', username=form.username.data, gpa=final_gpa, grades=total, form=form)
+        return render_template('test.html', username=form.username.data, courses=courses, gpa=final_gpa, grades=total, form=form)
     return render_template('test.html', form=form)
 
 
