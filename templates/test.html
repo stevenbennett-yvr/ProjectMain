@@ -1,29 +1,41 @@
 <!-- templates/index.html  -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask dynamic WTF forms</title>
-</head>
-<body>
-    <h1 style="text-align: center;">My grades</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../CSS/style.css">
+        <title>GPA Demo - Desig9 by Deadline</title>
+    </head>
+<body align="center" style="max-width: 500px; margin-left: auto; margin-right: auto">
+        <h1 style="text-align: center;">My grades</h1>
     <form method="POST" action="">
         {{ form.csrf_token }}
         {{form.username.label}}
         {{ form.username() }} <br>
         <h3>Grades List</h3>
         {{ form.grades.label }}
+        {{ form.courses() }}
         {{ form.grades() }}
         <button type="submit">Post grades</button>
-        <button id='add-grade-field' type="button">Add new grade</button>
+        <button id='add-course-field' type="button">Add new course</button>
     </form>
+    <hr>
+
+    <form method="POST" action="">
+        {{ form.csrf_token }}
+        {{ username }}
+        {{ gpa }}
+        <h3>Grades List</h3>
+        {%for grade in grades%}
+        <li>{{grade}}</li>
+    {%endfor%}
 </body>
 </html>
 <script>
     window.onload = function() {
-        let addgradeFieldBtn = document.getElementById('add-grade-field');
+        let addgradeFieldBtn = document.getElementById('add-course-field');
         addgradeFieldBtn.addEventListener('click', function(e){
             e.preventDefault();
             let allgradesFieldWrapper = document.getElementById('grades');
@@ -36,9 +48,11 @@
             for(let i = 0; i < allgradesField.length; i++) {
                 gradeInputIds.push(parseInt(allgradesField[i].name.split('-')[1]));
             }
+            let newFieldCourse = `Course-${Math.max(...gradeInputIds) + 1}`;
             let newFieldName = `grades-${Math.max(...gradeInputIds) + 1}`;
             allgradesFieldWrapper.insertAdjacentHTML('beforeend',`
-            <li><label for="${newFieldName}">Grade</label> <input id="${newFieldName}" name="${newFieldName}" type="text" value=""></li> 
+            <li><label for="${newFieldCourse}">Course</label> <input id="${newFieldCourse}" name="${newFieldCourse}" type="text" value=""></li> 
+            <li><label for="${newFieldName}">Grade</label> <input id="${newFieldName}" name="${newFieldName}" type="number" value=""></li> 
             `);
         });
     }
