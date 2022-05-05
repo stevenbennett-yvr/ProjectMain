@@ -1,37 +1,15 @@
 import sqlite3
 from flask import Flask, render_template
-from flask_wtf import FlaskForm
-from wtforms import StringField, FieldList, IntegerField, SubmitField
-from wtforms.validators import DataRequired
+# from flask_wtf import FlaskForm
+# from wtforms import StringField, FieldList, IntegerField, SubmitField
+# from wtforms.validators import DataRequired
 from calculator import calculation
-from flask_sqlalchemy import SQLAlchemy
+from forms import GradesForm, UserForm
+from databaseclasses import Users
 
 app = Flask(__name__, template_folder='./templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SECRET_KEY'] = "fuckit"
-
-db = SQLAlchemy(app)
-
-
-class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(50), nullable=False, unique=True)
-
-    def __repr__(self):
-        return f"<Name> {self.name}"
-
-
-class GradesForm(FlaskForm):
-    username = StringField("Your name", validators=[DataRequired()])
-    grades = FieldList(IntegerField('Grades Name'),
-                       min_entries=1, max_entries=10)
-
-
-class UserForm(FlaskForm):
-    name = StringField("Name", validator=[DataRequired()])
-    email = StringField("Email", validator=[DataRequired()])
-    submit = SubmitField("Submit")
 
 
 @app.route('/user/add', methods=['GET', 'POST'])
@@ -40,6 +18,7 @@ def add_user():
     return render_template('add_user.html', form=form)
 
 
+# How does this use POST?
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = GradesForm()

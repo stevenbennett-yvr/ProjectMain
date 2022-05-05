@@ -1,7 +1,12 @@
 
 def calculation(grade=int):
-    
-    if grade >= 93:
+    if type(grade)!=int:
+        raise TypeError
+
+    elif grade > 100 or grade < 0:
+        raise ValueError
+
+    elif grade >= 93:
         return 4.0
 
     elif grade >= 90:
@@ -34,5 +39,5 @@ def calculation(grade=int):
     elif grade >= 60:
         return  0.7
 
-    else:
+    elif grade >= 0 and grade < 60:
         return  0
