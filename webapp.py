@@ -6,7 +6,7 @@ from calculator import class_gpa_claculator, overall_gpa_calculator
 from forms import GradesForm, UserForm
 from databaseclasses import Users
 
-app = Flask(__name__, template_folder='./templates')
+app = Flask(__name__, template_folder='./templates', static_folder='./CSS')
 
 # do we currently need these lines?
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
