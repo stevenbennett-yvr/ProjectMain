@@ -12,23 +12,32 @@
     </head>
 <body align="center" style="max-width: 500px; margin-left: auto; margin-right: auto">
         <h1 style="text-align: center;">My grades</h1>
-    <form method="POST" action="">
+   
+        <div id='gradesarea'>
+            <form method="POST" action="">
 
         {{ form.csrf_token }}
-        {{form.username.label}}
-        {{ form.username() }} <br>
+       <div id='usernamearea'>
+           {{form.username.label}}
+        {{ form.username() }}
+       </div> <br>
+       
         <h3>Grades List</h3>
         {{ form.grades.label }}
             {{ form.courses() }}
             {{ form.grades() }}
-        <button type="submit">Post grades</button>
+        <div id= 'buttons'>
+        <button id='submit-button' type="submit">Post grades</button>
         <button id='add-course-field' type="button">Add course</button>
         <button id='remove-course-field' type="button">Remove course</button>
-
+        </div>
+    
     </form>
+    </div>
     <hr>
 
-    <form method="POST" action="">
+    
+        <form method="POST" action="">
         {{ form.csrf_token }}
         {{ username }}
         {{ gpa }}
@@ -39,7 +48,7 @@
         {%for grade in grades%}
         <li>{{ grade }}</li>
     {%endfor%}
-    <footer>Created by Desig9 by Deadline</footer>
+    </div>
 </body>
 </html>
 <script>

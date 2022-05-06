@@ -1,8 +1,8 @@
-h1 {
-}
+
 
 label {
     font-family: 'Roboto Slab', serif;
+    margin-right: 10px;
 }
 
 :root {
@@ -20,7 +20,28 @@ label {
   }
 
 html {
-    background-color: var(--drk-white);
+    background-color:#fffaf3;
+}
+
+button {
+    border-radius: 8px
+}
+
+#buttons {
+ display: flex;
+ flex-direction: column;
+ align-content:space-between;
+}
+
+#submit-button, #add-course-field, #remove-course-field {
+    padding: 5px;
+    margin:5px;
+}
+
+
+
+li {
+    list-style-type: none;
 }
 
 body {
@@ -29,10 +50,35 @@ body {
     align-items: center;
 }
 
+
+
 h1 {
     font-size: var(--lrg-txt);
     color: var(--not-black);
     font-family: 'Roboto', sans-serif;
+}
+
+h3 {
+    align-items: center;
+}
+
+
+#usernamearea {
+    display: flex;
+    flex-direction: column;
+}
+
+#gradesarea {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: solid 5px var(--not-black);
+    padding: 50px;
+    background-color: #f2e9e1;
+}
+
+ul {
+    padding:0px;
 }
 
 .textBox {
