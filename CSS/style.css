@@ -75,6 +75,8 @@ h3 {
     border: solid 5px var(--not-black);
     padding: 50px;
     background-color: #f2e9e1;
+    width:250px;
+    height: 400px;
 }
 
 ul {
