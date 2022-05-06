@@ -1,5 +1,5 @@
 
-def calculation(grade=int):
+def class_gpa_claculator(grade=int):
     if type(grade)!=int:
         raise TypeError
 
@@ -41,3 +41,11 @@ def calculation(grade=int):
 
     elif grade >= 0 and grade < 60:
         return  0
+
+def overall_gpa_calculator(course_gpas:list,course_credits=0):
+    try:
+        # total_credits=course_credits*len(course_credits)
+        final_gpa = round(sum(course_gpas)/len(course_gpas),2)
+        return final_gpa
+    except:
+        raise TypeError

@@ -1,14 +1,15 @@
-import sqlite3
 from flask import Flask, render_template
 # from flask_wtf import FlaskForm
 # from wtforms import StringField, FieldList, IntegerField, SubmitField
 # from wtforms.validators import DataRequired
-from calculator import calculation
+from calculator import class_gpa_claculator, overall_gpa_calculator
 from forms import GradesForm, UserForm
 from databaseclasses import Users
 
 app = Flask(__name__, template_folder='./templates')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+
+# do we currently need these lines?
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SECRET_KEY'] = "fuckit"
 
 
@@ -25,13 +26,13 @@ def index():
     if form.validate_on_submit():
         grades = form.grades.data
         courses = form.courses.data
-        total = list()
+        course_gpas = list()
         for grade in grades:
-            gpa = calculation(grade)
-            total.append(gpa)
-        final_grade = sum(total)/len(total)
-        final_gpa = round(final_grade, 2)
-        return render_template('test.html', username=form.username.data, courses=courses, gpa=final_gpa, grades=total, form=form)
+            gpa = class_gpa_claculator(grade)
+            course_gpas.append(gpa)
+            # course_credits= cred * grade
+        final_gpa = overall_gpa_calculator(course_gpas)
+        return render_template('test.html', username=form.username.data, courses=courses, gpa=final_gpa, grades=course_gpas, form=form)
     return render_template('test.html', form=form)
 
 
