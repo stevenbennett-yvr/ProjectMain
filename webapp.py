@@ -43,7 +43,7 @@ def add_user():
     return render_template('add_user.html', form=form)
 
 # How does this use POST?
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/demo', methods=['GET', 'POST'])
 def index():
     form = GradesForm()
     if form.validate_on_submit():
@@ -55,8 +55,8 @@ def index():
             course_gpas.append(gpa)
             # course_credits= cred * grade
         final_gpa = overall_gpa_calculator(course_gpas)
-        return render_template('test.html', username=form.username.data, courses=courses, gpa=final_gpa, grades=course_gpas, form=form)
-    return render_template('test.html', form=form)
+        return render_template('gpa_calc.html', username=form.username.data, courses=courses, gpa=final_gpa, grades=course_gpas, form=form)
+    return render_template('gpa_calc.html', form=form)
 
 
 
