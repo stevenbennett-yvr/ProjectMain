@@ -1,7 +1,6 @@
-from calendar import c
+from flask_wtf import FlaskForm
 from wtforms import StringField, FieldList, IntegerField, SubmitField
 from wtforms.validators import DataRequired
-from flask_wtf import FlaskForm
 
 
 class GradesForm(FlaskForm):
@@ -13,4 +12,4 @@ class GradesForm(FlaskForm):
 class UserForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired()])
-    submit = SubmitField("Submit")
+    submit = SubmitField("Add User")
