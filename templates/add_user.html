@@ -1,0 +1,46 @@
+<!-- templates/add_user.html  -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../CSS/style.css">
+        {% if title %}
+            <title>Flask App {title} - Desig9 by Deadline</title>
+        {% else %}
+            <title>Flask app - Desig9 by Deadline</title>
+        {% endif %}   
+
+    </head>
+<body align="center" style="max-width: 500px; margin-left: auto; margin-right: auto">
+    <header>    
+        <h1 style="text-align: center;">Add User</h1>    
+    </header>
+    <main class="container">
+        <div class="row">
+            <div>
+                <form action="" method="POST">
+                    {{ form.csrf_token() }}
+                    <fieldset class="form-group">
+                        <legend>Add User</legend>
+                        <div class="form-group">
+                            {{ form.name.label(class="form-control-label") }}
+                            {{ form.name(class="form-control") }}
+                            <br>
+                            {{ form.email.label(class="form-control-label") }}
+                            {{ form.email(class="form-control") }}
+                            <br>
+                            <div class="form-group">
+                                {{ form.submit(class="btn") }}
+                            </div>
+
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+                <br>
+        </form>
+    </main>
+</body>
