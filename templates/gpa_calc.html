@@ -6,27 +6,38 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../CSS/style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <title>GPA Demo - Desig9 by Deadline</title>
     </head>
 <body align="center" style="max-width: 500px; margin-left: auto; margin-right: auto">
         <h1 style="text-align: center;">My grades</h1>
-    <form method="POST" action="">
+   
+        <div id='gradesarea'>
+            <form method="POST" action="">
 
         {{ form.csrf_token }}
-        {{form.username.label}}
-        {{ form.username() }} <br>
+       <div id='usernamearea'>
+           {{form.username.label}}
+        {{ form.username() }}
+       </div> <br>
+       
         <h3>Grades List</h3>
         {{ form.grades.label }}
             {{ form.courses() }}
             {{ form.grades() }}
-        <button type="submit">Post grades</button>
+        <div id= 'buttons'>
+        <button id='submit-button' type="submit">Post grades</button>
         <button id='add-course-field' type="button">Add course</button>
         <button id='remove-course-field' type="button">Remove course</button>
-
+        </div>
+    
     </form>
+    </div>
     <hr>
 
-    <form method="POST" action="">
+    
+        <form method="POST" action="">
         {{ form.csrf_token }}
         {{ username }}
         {{ gpa }}
@@ -37,6 +48,7 @@
         {%for grade in grades%}
         <li>{{ grade }}</li>
     {%endfor%}
+    </div>
 </body>
 </html>
 <script>

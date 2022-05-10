@@ -10,8 +10,11 @@ from calculator import calculation
 from forms import GradesForm, UserForm
 from datetime import datetime
 
-app = Flask(__name__, template_folder='./templates')
 
+app = Flask(__name__, template_folder='./templates', static_folder='./CSS')
+
+# do we currently need these lines?
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SECRET_KEY'] = "fuckit"
 app.config['MONGO_URI'] = 'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongo = PyMongo(app)
@@ -54,6 +57,7 @@ def index():
         final_gpa = round(final_grade, 2)
         return render_template('gpa_calc.html', username=form.username.data, courses=courses, gpa=final_gpa, grades=total, form=form)
     return render_template('gpa_calc.html', form=form)
+
 
 
 if __name__ == "__main__":
