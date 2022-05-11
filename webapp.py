@@ -113,17 +113,22 @@ def logout():
 def demo():
     form = GradesForm()
     if "email" in session:
+        email = session["email"]
         if form.validate_on_submit():
-            grades = form.grades.data
-            courses = form.courses.data
-            course_gpas = list()
-            for grade in grades:
-                gpa = class_gpa_claculator(grade)
-                course_gpas.append(gpa)
-                # course_credits= cred * grade
-            final_gpa = overall_gpa_calculator(course_gpas)
-            return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form, email=session["email"])
-        return render_template('gpa_calc.html', form=form, email=session["email"])
+            print(request.form['submit_button'])
+            if request.form["submit_button"] == "Read":
+                grades = form.grades.data
+                courses = form.courses.data
+                course_gpas = list()
+                for grade in grades:
+                    gpa = class_gpa_claculator(grade)
+                    course_gpas.append(gpa)
+                    # course_credits= cred * grade
+                final_gpa = overall_gpa_calculator(course_gpas)
+                return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form, email=email)
+            if request.form["submit_button"] == "Write":
+                return redirect(url_for('logged_in'))
+        return render_template('gpa_calc.html', form=form, email=email)
     else:
         if form.validate_on_submit():
             grades = form.grades.data
