@@ -1,3 +1,4 @@
+from bson import ObjectId
 from flask import (
     Flask,
     render_template,
@@ -13,6 +14,7 @@ from calculator import class_gpa_claculator, overall_gpa_calculator
 from forms import GradesForm, UserForm
 from datetime import datetime
 import bcrypt
+import string
 
 app = Flask(__name__, template_folder='./templates', static_folder='./CSS')
 
@@ -105,34 +107,13 @@ def logout():
     else:
         return render_template('index.html')
 
-
-# @app.route('/user/signup', methods=['POST', 'GET'])
-# def signup():
-#     pass
-    # if request.method == 'POST':
-    #     form = UserForm(request.form)
-    #     user_name = form.name.data
-    #     user_email = form.email.data
-    #     if mongo.db.users.find_one({"name": user_name}):
-    #         return "error: username is taken", 404
-
-    #     db.agile.users.insert_one({
-    #         "name": user_name,
-    #         "email": user_email,
-    #         "date_added": datetime.utcnow()
-    #     })
-    #     flash("User successfully added", "success")
-    #     return redirect('/')
-    # else:
-    #     form = UserForm()
-    # return render_template('add_user.html', form=form)
-
 # How does this use POST?
 
 
 @app.route('/demo', methods=['GET', 'POST'])
 def demo():
     form = GradesForm()
+    email = session["email"]
     if form.validate_on_submit():
         grades = form.grades.data
         courses = form.courses.data
@@ -142,8 +123,9 @@ def demo():
             course_gpas.append(gpa)
             # course_credits= cred * grade
         final_gpa = overall_gpa_calculator(course_gpas)
-        return render_template('gpa_calc.html', username=form.username.data, courses=courses, gpa=final_gpa, grades=course_gpas, form=form)
-    return render_template('gpa_calc.html', form=form)
+        email = session["email"]
+        return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form, email=email)
+    return render_template('gpa_calc.html', form=form, email=email)
 
 
 if __name__ == "__main__":
