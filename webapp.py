@@ -106,26 +106,36 @@ def logout():
         return render_template("signout.html")
     else:
         return render_template('index.html')
-
 # How does this use POST?
 
 
 @app.route('/demo', methods=['GET', 'POST'])
 def demo():
     form = GradesForm()
-    email = session["email"]
-    if form.validate_on_submit():
-        grades = form.grades.data
-        courses = form.courses.data
-        course_gpas = list()
-        for grade in grades:
-            gpa = class_gpa_claculator(grade)
-            course_gpas.append(gpa)
-            # course_credits= cred * grade
-        final_gpa = overall_gpa_calculator(course_gpas)
-        email = session["email"]
-        return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form, email=email)
-    return render_template('gpa_calc.html', form=form, email=email)
+    if "email" in session:
+        if form.validate_on_submit():
+            grades = form.grades.data
+            courses = form.courses.data
+            course_gpas = list()
+            for grade in grades:
+                gpa = class_gpa_claculator(grade)
+                course_gpas.append(gpa)
+                # course_credits= cred * grade
+            final_gpa = overall_gpa_calculator(course_gpas)
+            return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form, email=session["email"])
+        return render_template('gpa_calc.html', form=form, email=session["email"])
+    else:
+        if form.validate_on_submit():
+            grades = form.grades.data
+            courses = form.courses.data
+            course_gpas = list()
+            for grade in grades:
+                gpa = class_gpa_claculator(grade)
+                course_gpas.append(gpa)
+                # course_credits= cred * grade
+            final_gpa = overall_gpa_calculator(course_gpas)
+            return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form)
+        return render_template('gpa_calc.html', form=form)
 
 
 if __name__ == "__main__":

@@ -17,9 +17,12 @@
     {{ form.courses() }}
     {{ form.grades() }}
 <div id= 'buttons'>
-<button id='submit-button' type="submit">Post grades</button>
+<button id='submit-button' type="submit", value="Post">Post grades</button>
 <button id='add-course-field' type="button">Add course</button>
 <button id='remove-course-field' type="button">Remove course</button>
+{% if email  %}
+<button id='remove-course-field' type="submit" value="Save">Save grades</button>
+{% endif %}
 </div>
 
 </form>
