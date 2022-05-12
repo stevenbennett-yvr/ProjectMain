@@ -82,8 +82,10 @@ def logged_in():
         cursor = transcripts.find({"email": email})
         terms = []
         for document in cursor:
+            print(type(document))
             terms.append(document)
-        return render_template("logged_in.html", email=email, session=session, terms=terms)
+        print(type(terms))
+        return render_template("logged_in.html", email=email, session=session, parent_list=terms)
     else:
         return redirect(url_for("login"))
 
@@ -187,8 +189,18 @@ def delete_grade(id):
     except:
         return "404: transcript not found", 404
 
+# @app.route("/edit/<id>", methods=["GET", "POST"])
+# def grade_update(id):
+#     email = session["email"]
+#     grade = transcripts.find_one({"_id": ObjectId(id)})
+#     term = grade['term']
+#     grades = grade['grades']
+#     form = GradesForm()
+#     if "email" in session:
 
-
+#         return render_template('gpa_calc.html', form=form)
+#     else:
+#         return render_template('gpa_calc.html', form=form, email=email)
 
 if __name__ == "__main__":
     app.run(debug=True)
