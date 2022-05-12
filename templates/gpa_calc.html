@@ -2,31 +2,39 @@
 {% block title %}GPA Calculator{% endblock %}
 
 {% block content %}
-<h1 style="text-align: center;">My grades</h1>
+<!-- <h1 style="text-align: center;">My grades</h1> -->
    
 <div id='gradesarea'>
+    <h1>My Grades</h1>
     <form method="POST" action="">
+        {{ form.csrf_token }}
 
-{{ form.csrf_token }}
-<div id='usernamearea'>
-{{ form.term.label }}
-    {{ form.term() }}
-</div> <br>
 
-<h3>Grades List</h3>
-{{ form.grades.label }}
-    {{ form.courses() }}
-    {{ form.grades() }}
-<div id= 'buttons'>
-<button id='submit-button' name="submit_button" type="submit", value="Read">Post grades</button>
-<button id='add-course-field' type="button">Add course</button>
-<button id='remove-course-field' type="button">Remove course</button>
-{% if email  %}
-<button id='save-button' name="submit_button" type="submit" value="Write">Save grades</button>
-{% endif %}
-</div>
+        <div id='usernamearea'>
 
-</form>
+        </div> <br>
+
+        <div class="gradesarea-headings">
+            <h3>Courses</h3>
+            <h3>Grades</h3>
+        </div>
+
+        <section class="course-grade-area">
+            <!-- <h3>Grades List</h3> -->
+            <!-- {{ form.grades.label }} -->
+
+            {{ form.courses() }}
+            {{ form.grades() }}
+        </section>
+        <div id= 'buttons'>
+            <button id='submit-button' type="submit", value="Post">Post grades</button>
+            <button id='add-course-field' type="button">Add course</button>
+            <button id='remove-course-field' type="button">Remove course</button>
+            {% if email  %}
+            <button id='remove-course-field' type="submit" value="Save">Save grades</button>
+            {% endif %}
+        </div>
+    </form>
 </div>
 <hr>
 
@@ -61,7 +69,7 @@
             }
             let newFieldName = `grades-${Math.max(...gradeInputIds) + 1}`;
             allgradesFieldWrapper.insertAdjacentHTML('beforeend',`
-            <li><label for="${newFieldName}">Grade</label> <input id="${newFieldName}" name="${newFieldName}" type="number" value=""></li> 
+            <li><label for="${newFieldName}"></label> <input id="${newFieldName}" name="${newFieldName}" type="number" value=""></li> 
             `);
 
             let allcoursesFieldWrapper = document.getElementById('courses');
@@ -76,7 +84,7 @@
             }
             let newFieldCourse = `courses-${Math.max(...gradeInputIds) + 1}`;
             allcoursesFieldWrapper.insertAdjacentHTML('beforeend',`
-            <li><label for="${newFieldCourse}">Course</label> <input id="${newFieldCourse}" name="${newFieldCourse}" type="text" value=""></li> 
+            <li><label for="${newFieldCourse}"></label> <input id="${newFieldCourse}" name="${newFieldCourse}" type="text" value=""></li> 
             `);
         });
         let removegradeFieldBtn = document.getElementById('remove-course-field');
