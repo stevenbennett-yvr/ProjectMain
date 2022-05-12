@@ -6,10 +6,11 @@
 <p>Hello You have Logged in as {{ email }}</p>
     <li>
         <h3>Grades List</h3>
-        {%for term in terms%}
-        <li></li>
-            {{ term }}
-            {{ term.email }}
-        {%endfor%}
-   </li>
+        {% for dict_item in parent_list %}
+            <p>Term: {{dict_item['term']}}</p>
+                <h3>grades</h3>
+            {% for key, value in dict_item['grades'].items() %}
+            <p> {{key}} : {{value}}</p>
+         {% endfor %}
+        {% endfor %}
 {% endblock %}
