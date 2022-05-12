@@ -5,7 +5,7 @@
     --not-red:   #eb6f92;
     --not-blue:  #34495e;
     --not-green: #1abc9c;
-    --not-grey:  #393552;
+    --not-grey:  #2c3e50;
     --muted:     #6e6a86;
     --hdr-hght:  5rem;
     --lrg-txt:   2rem;
@@ -17,7 +17,8 @@ html {
 }
 
 button {
-    border-radius: 8px
+    border-radius: 8px;
+    background-color: white;
 }
 
 label {
@@ -58,7 +59,7 @@ h1 {
 }
 
 h3 {
-    align-self: center;
+    text-align: center;
     color: white;
 }
 
@@ -190,6 +191,7 @@ nav a {
 
 p {
     color: white;
+    text-align: center;
 }
 
 .form-control {
@@ -216,12 +218,14 @@ p {
 
 .course-grade-area {
     display: flex;
+    justify-content: space-between;
+    padding-right: 10px;
+
 }
 
 .gradesarea-headings {
     display: flex;
     justify-content: space-around;
-    box-shadow: 1px 1px 25px 10px rgba(146, 148, 248, 0.4);
 }
 
 .btn:before {
@@ -238,9 +242,23 @@ p {
       transparent
     );
     transition: all 650ms;
-  }
+}
 
-  .btn:hover:before {
+.btn:hover:before {
     left: 100%;
-  }
+}
+
+.gpa-area {
+    background-color: white;
+    border: solid #2c3e50;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.gpa-area p, .gpa-area h3 {
+    color: #191724;
+    text-align: center;
+}
+
+
 
