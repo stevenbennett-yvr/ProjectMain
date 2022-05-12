@@ -32,7 +32,7 @@ label {
  align-content:space-between;
 }
 
-#submit-button, #add-course-field, #remove-course-field {
+#submit-button, #add-course-field, #remove-course-field, #save-button {
     padding: 5px;
     margin:5px;
 }
