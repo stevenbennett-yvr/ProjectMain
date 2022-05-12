@@ -1,3 +1,5 @@
+# imports from pip
+# run `pip install bson flask flask_sqlalchemy flask_pymongo flask_wtf wtforms wtforms.validators datetime bcrypt pytest`
 from bson import ObjectId
 from flask import (
     Flask,
@@ -10,24 +12,33 @@ from flask import (
     url_for
 )
 from flask_pymongo import PyMongo
-from calculator import class_gpa_claculator, overall_gpa_calculator
-from forms import GradesForm, UserForm
 from datetime import datetime
 import bcrypt
 
+# Custom imports
+from calculator import class_gpa_claculator, overall_gpa_calculator
+from forms import GradesForm, UserForm
+
+
+# Set up flask
 app = Flask(__name__, template_folder='./templates', static_folder='./CSS')
 
-# do we currently need these lines?
+# Session setup, required by flask_mongo and wtform
 app.config['SECRET_KEY'] = "fuckit"
+
+# Mongo setup
 app.config['MONGO_URI'] = 'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongo = PyMongo(app)
 db = mongo.db
+
+# Database variables
 records = db.register
 transcripts = db.transcripts
 
 
 @app.route("/", methods=['post', 'get'])
 def index():
+    # Registration page backend
     message = ''
     if "email" in session:
         return redirect(url_for("logged_in"))
@@ -63,12 +74,14 @@ def index():
 
 @app.route('/logged_in')
 def logged_in():
+    # homepage backend, ugly as sin and needs a lot of work
     if "email" in session:
         email = session["email"]
+        # .find searches the database for all records that match the argument. 
+        # returns records as a cursor object, cursor object can be broken down into dictionaries. 
         cursor = transcripts.find({"email": email})
         terms = []
         for document in cursor:
-            print(document)
             terms.append(document)
         return render_template("logged_in.html", email=email, session=session, terms=terms)
     else:
@@ -77,10 +90,12 @@ def logged_in():
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
+    # login page backend. 
     message = 'Please login to your account'
+    # is user alread logged in? redirect them to homepage
     if "email" in session:
         return redirect(url_for("logged_in"))
-
+    # checks that user exists in database, logs them in.
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
@@ -106,21 +121,24 @@ def login():
 
 @app.route("/logout", methods=["POST", "GET"])
 def logout():
+    # logout backend. very simple.
     if "email" in session:
         session.pop("email", None)
         return render_template("signout.html")
     else:
         return render_template('index.html')
-# How does this use POST?
-
 
 @app.route('/demo', methods=['GET', 'POST'])
 def demo():
+    # gpa calculator backend
+    # imports the gradeform object from form to autogenerate object from inputs    
     form = GradesForm()
+    # check if user is logged in, provides a save function.
     if "email" in session:
         email = session["email"]
         if form.validate_on_submit():
             print(request.form['submit_button'])
+            # calculates gpa without writing to database.
             if request.form["submit_button"] == "Read":
                 grades = form.grades.data
                 courses = form.courses.data
@@ -131,6 +149,7 @@ def demo():
                     # course_credits= cred * grade
                 final_gpa = overall_gpa_calculator(course_gpas)
                 return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form, email=email)
+            # writes grades to database.
             if request.form["submit_button"] == "Write":
                 term = form.term.data
                 grades = form.grades.data
@@ -139,8 +158,10 @@ def demo():
                 user_input = {'email': email, 'term': term, 'grades': res}
                 transcripts.insert_one(user_input)
                 return redirect(url_for('logged_in'))
+        #standard render
         return render_template('gpa_calc.html', form=form, email=email)
     else:
+        #if no user is logged in, provides calculator without function to write to database.
         if form.validate_on_submit():
             grades = form.grades.data
             courses = form.courses.data
@@ -152,6 +173,21 @@ def demo():
             final_gpa = overall_gpa_calculator(course_gpas)
             return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form)
         return render_template('gpa_calc.html', form=form)
+
+@app.route("/remove/<id>", methods=["GET", "POST"])
+def delete_grade(id):
+    # deletes grades/term record
+    try:
+        grade = transcripts.find_one({"_id": ObjectId(id)})
+        if session["email"] == grade["email"]:
+            transcripts.delete_one({"_id": ObjectId(id)})
+            return redirect("/logged_in")
+        else:
+            return "404: invalid permissions", 404
+    except:
+        return "404: transcript not found", 404
+
+
 
 
 if __name__ == "__main__":
