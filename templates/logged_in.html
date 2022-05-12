@@ -4,5 +4,11 @@
 
 {% block content %}
 <p>Hello You have Logged in as {{ email }}</p>
-
+    <li>
+        <h3>Grades List</h3>
+        {%for term in terms%}
+        <li></li>
+            {{ term }}
+        {%endfor%}
+   </li>
 {% endblock %}

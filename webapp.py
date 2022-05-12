@@ -23,7 +23,7 @@ app.config['MONGO_URI'] = 'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongod
 mongo = PyMongo(app)
 db = mongo.db
 records = db.register
-gradesdb = db.grades
+transcripts = db.transcripts
 
 
 @app.route("/", methods=['post', 'get'])
@@ -65,7 +65,12 @@ def index():
 def logged_in():
     if "email" in session:
         email = session["email"]
-        return render_template('logged_in.html', email=email)
+        cursor = transcripts.find({"email": email})
+        terms = []
+        for document in cursor:
+            print(document)
+            terms.append(document)
+        return render_template("logged_in.html", email=email, session=session, terms=terms)
     else:
         return redirect(url_for("login"))
 
@@ -132,7 +137,7 @@ def demo():
                 courses = form.courses.data
                 res = {courses[i]: grades[i] for i in range(len(courses))}
                 user_input = {'email': email, 'term': term, 'grades': res}
-                gradesdb.insert_one(user_input)
+                transcripts.insert_one(user_input)
                 return redirect(url_for('logged_in'))
         return render_template('gpa_calc.html', form=form, email=email)
     else:
