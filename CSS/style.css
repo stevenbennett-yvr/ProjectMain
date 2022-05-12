@@ -209,7 +209,6 @@ p {
 }
   
 .btn:hover {
-<<<<<<< HEAD
     background-color: var(--not-green);
     color: white;
     box-shadow: 1px 1px 25px 10px rgba(146, 148, 248, 0.4);
@@ -222,12 +221,9 @@ p {
 .gradesarea-headings {
     display: flex;
     justify-content: space-around;
-}
-=======
     box-shadow: 1px 1px 25px 10px rgba(146, 148, 248, 0.4);
 }
 
->>>>>>> 7d78e3c187004264a94f90ef5793dab2a73c2ac0
 .btn:before {
     content: "";
     position: absolute;
