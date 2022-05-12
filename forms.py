@@ -4,8 +4,8 @@ from wtforms.validators import DataRequired
 
 
 class GradesForm(FlaskForm):
-    courses = FieldList(StringField('Course'), min_entries=1, max_entries=10)
-    grades = FieldList(IntegerField('Grade'), min_entries=1, max_entries=10)
+    courses = FieldList(StringField(''), min_entries=1, max_entries=10)
+    grades = FieldList(IntegerField(''), min_entries=1, max_entries=10)
 
 
 class UserForm(FlaskForm):

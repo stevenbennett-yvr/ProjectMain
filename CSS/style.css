@@ -1,11 +1,3 @@
-
-
-label {
-    font-family: 'Roboto Slab', serif;
-    margin-right: 10px;
-    color: white;
-}
-
 :root {
     --not-white: #fffaf3;
     --drk-white: #f2e9e1;
@@ -28,6 +20,12 @@ button {
     border-radius: 8px
 }
 
+label {
+    font-family: 'Roboto Slab', serif;
+    margin-right: 10px;
+    color: white;
+}
+
 #buttons {
  display: flex;
  flex-direction: column;
@@ -38,7 +36,6 @@ button {
     padding: 5px;
     margin:5px;
 }
-
 
 
 li {
@@ -52,13 +49,12 @@ body {
 }
 
 
-
 h1 {
     top: 0%;
     font-size: var(--lrg-txt);
     color: white;
     font-family: 'Roboto', sans-serif;
-    align-self: center;
+    text-align: center;
 }
 
 h3 {
@@ -78,9 +74,10 @@ h3 {
     justify-content: center;
     padding: 50px;
     background-color: var(--not-blue);
-    width:250px;
-    height: 400px;
+    width:fit-content;
+    height: fit-content;
     padding-top: 0%;
+    
 }
 
 ul {
@@ -99,20 +96,6 @@ ul {
     color: var(--not-black);
 }
 
-#schoolName, #studentNumber {
-    border-radius: 4px;
-    border: solid var(--not-black);
-    width: 150%;
-}
-
-footer {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    bottom: 0;
-    font-size: 1.5rem;
-    color: var(--not-black);
-}
 
 nav {
     position: relative;
@@ -193,12 +176,9 @@ nav a {
 
 
 .login-area {
-    position: absolute;
-    top: 30%;
-    left: 50%;
+    align-self: center;
     width: fit-content;
     padding: 40px;
-    transform: translate(-50%, -50%);
     background: var(--not-blue);
     box-sizing: border-box;
     border-radius: 10px;
@@ -232,4 +212,13 @@ p {
 .btn:hover {
     background-color: var(--not-green);
     color: white;
+}
+
+.course-grade-area {
+    display: flex;
+}
+
+.gradesarea-headings {
+    display: flex;
+    justify-content: space-around;
 }
