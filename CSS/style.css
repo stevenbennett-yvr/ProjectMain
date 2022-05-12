@@ -15,7 +15,7 @@ label {
     --not-grey:  #393552;
     --muted:     #6e6a86;
     --hdr-hght:  5rem;
-    --lrg-txt:   3.5rem;
+    --lrg-txt:   2rem;
     --sml-txt:  1.5rem;
   }
 
@@ -53,13 +53,15 @@ body {
 
 
 h1 {
+    top: 0%;
     font-size: var(--lrg-txt);
     color: var(--not-black);
     font-family: 'Roboto', sans-serif;
+    align-self: center;
 }
 
 h3 {
-    align-items: center;
+    align-self: center;
 }
 
 
@@ -77,6 +79,7 @@ h3 {
     background-color: #f2e9e1;
     width:250px;
     height: 400px;
+    padding-top: 0%;
 }
 
 ul {
@@ -109,3 +112,101 @@ footer {
     font-size: 1.5rem;
     color: var(--not-black);
 }
+
+nav {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    background-color: #34495e;
+    border-radius: 8px;
+    font-size: 0;
+    margin-bottom: 20px;
+}
+
+nav a {
+    line-height: 50px;
+    height: 100%;
+    font-size: 15px;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+
+a:nth-child(1) {
+    width: 100px;
+}
+
+a:nth-child(2) {
+    width: 110px;
+}
+
+a:nth-child(3) {
+    width: 100px;
+}
+
+a:nth-child(4) {
+    width: 160px;
+}
+
+a:nth-child(5) {
+    width: 120px;
+}
+
+
+
+.nav-list * {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all 0.35s ease;
+    transition: all 0.35s ease;
+}
+
+.nav-list li {
+    display: inline-block;
+    list-style: outside none none;
+    margin: 0.5em 1.5em;
+    padding: 0;
+}
+
+.nav-list a {
+    padding: 0.3em 0;
+    color: white;
+    position: relative;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.nav-list a:before, .nav-list a:after {
+    height: 3px;
+    position: absolute;
+    content: '';
+    -webkit-transition: all 0.35s ease;
+    transition: all 0.35s ease;
+    background-color: #1abc9c;
+    width: 0;
+}
+
+.nav-list a:before {
+    top: 0;
+    left: 0;
+ }
+ 
+.nav-list a:after {
+    bottom: 0;
+    right: 0;
+ }
+
+.nav-list a:hover {
+    color: #ffffff;
+}
+
+.nav-list a:hover:before,
+.nav-list a:hover:after {
+    width: 100%;
+  }
