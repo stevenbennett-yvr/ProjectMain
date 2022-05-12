@@ -14,7 +14,6 @@ from calculator import class_gpa_claculator, overall_gpa_calculator
 from forms import GradesForm, UserForm
 from datetime import datetime
 import bcrypt
-import string
 
 app = Flask(__name__, template_folder='./templates', static_folder='./CSS')
 
@@ -24,6 +23,7 @@ app.config['MONGO_URI'] = 'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongod
 mongo = PyMongo(app)
 db = mongo.db
 records = db.register
+gradesdb = db.grades
 
 
 @app.route("/", methods=['post', 'get'])
@@ -127,6 +127,12 @@ def demo():
                 final_gpa = overall_gpa_calculator(course_gpas)
                 return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form, email=email)
             if request.form["submit_button"] == "Write":
+                term = form.term.data
+                grades = form.grades.data
+                courses = form.courses.data
+                res = {courses[i]: grades[i] for i in range(len(courses))}
+                user_input = {'email': email, 'term': term, 'grades': res}
+                gradesdb.insert_one(user_input)
                 return redirect(url_for('logged_in'))
         return render_template('gpa_calc.html', form=form, email=email)
     else:

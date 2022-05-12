@@ -9,7 +9,8 @@
 
 {{ form.csrf_token }}
 <div id='usernamearea'>
-
+{{ form.term.label }}
+    {{ form.term() }}
 </div> <br>
 
 <h3>Grades List</h3>
