@@ -3,6 +3,7 @@
 label {
     font-family: 'Roboto Slab', serif;
     margin-right: 10px;
+    color: white;
 }
 
 :root {
@@ -10,8 +11,8 @@ label {
     --drk-white: #f2e9e1;
     --not-black: #191724;
     --not-red:   #eb6f92;
-    --not-blue:  #31748f;
-    --not-green: #56949f;
+    --not-blue:  #34495e;
+    --not-green: #1abc9c;
     --not-grey:  #393552;
     --muted:     #6e6a86;
     --hdr-hght:  5rem;
@@ -20,7 +21,7 @@ label {
   }
 
 html {
-    background-color:#fffaf3;
+    background-color:#2c3e50;
 }
 
 button {
@@ -55,13 +56,14 @@ body {
 h1 {
     top: 0%;
     font-size: var(--lrg-txt);
-    color: var(--not-black);
+    color: white;
     font-family: 'Roboto', sans-serif;
     align-self: center;
 }
 
 h3 {
     align-self: center;
+    color: white;
 }
 
 
@@ -74,9 +76,8 @@ h3 {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: solid 5px var(--not-black);
     padding: 50px;
-    background-color: #f2e9e1;
+    background-color: var(--not-blue);
     width:250px;
     height: 400px;
     padding-top: 0%;
@@ -126,7 +127,7 @@ nav {
 nav a {
     line-height: 50px;
     height: 100%;
-    font-size: 15px;
+    font-size: var(--sml-txt);
     display: inline-block;
     position: relative;
     z-index: 1;
@@ -135,29 +136,8 @@ nav a {
     text-align: center;
     color: white;
     cursor: pointer;
+    margin: 1rem;
 }
-
-
-a:nth-child(1) {
-    width: 100px;
-}
-
-a:nth-child(2) {
-    width: 110px;
-}
-
-a:nth-child(3) {
-    width: 100px;
-}
-
-a:nth-child(4) {
-    width: 160px;
-}
-
-a:nth-child(5) {
-    width: 120px;
-}
-
 
 
 .nav-list * {
@@ -188,7 +168,7 @@ a:nth-child(5) {
     content: '';
     -webkit-transition: all 0.35s ease;
     transition: all 0.35s ease;
-    background-color: #1abc9c;
+    background-color: var(--not-green);
     width: 0;
 }
 
@@ -209,4 +189,47 @@ a:nth-child(5) {
 .nav-list a:hover:before,
 .nav-list a:hover:after {
     width: 100%;
-  }
+}
+
+
+.login-area {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: fit-content;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: var(--not-blue);
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.form-group {
+    margin: 15px;
+}
+
+p {
+    color: white;
+}
+
+.form-control {
+    margin: auto;
+}
+
+.btn-primary {
+    transition-duration: 0.4s;
+    background-color: white;
+    color: black;
+    border: 2px solid var(--not-black);
+    border-radius: 2px;
+}
+
+#submit-btn {
+    display: flex;
+    justify-content: center;
+}
+  
+.btn:hover {
+    background-color: var(--not-green);
+    color: white;
+}
