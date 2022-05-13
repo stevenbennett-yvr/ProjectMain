@@ -9,11 +9,8 @@
     <form method="POST" action="">
         {{ form.csrf_token }}
 
-
-        <div id='usernamearea'>
-
-        </div> <br>
-
+        <h3>Term</h3>
+        <p>{{ form.term() }}</p>
         <div class="gradesarea-headings">
             <h3>Courses</h3>
             <h3>Grades</h3>
