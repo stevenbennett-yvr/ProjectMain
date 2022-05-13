@@ -81,10 +81,11 @@ def index():
             return render_template('index.html', message=message)
         else:
             hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
+            
             try:
                 new_user = Student(user, email, hashed)
             except:
-                message = 'Please make sure that: Your name does not include letters, your email is in a correct format (example@website.com), and that you have entered a password'
+                message = 'Please make sure that: Your name is not all numbers, your email is in a correct format (example@website.com), and that you have entered a password'
                 return render_template('index.html', message=message)
             records.insert_one(new_user.to_dict())
     
