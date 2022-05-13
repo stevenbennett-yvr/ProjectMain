@@ -8,10 +8,10 @@ class NameValueError(Exception):
 class Student():
     def __init__(self, name, email, password):
 
-        if name is not type(name)==str: raise NameValueError
+        if not type(name)==str: raise NameValueError
         else: self.name=name
 
-        if email is not type(email)==str: raise EmailError
+        if not type(email)==str: raise EmailError
         else:
             try:
                 email_at=email.find('@')
