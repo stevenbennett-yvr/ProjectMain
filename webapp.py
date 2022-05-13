@@ -15,6 +15,7 @@ from flask_pymongo import PyMongo, pymongo
 from datetime import datetime
 import bcrypt
 import certifi
+from models.student import Student
 
 # Custom imports
 from calculator import class_gpa_claculator, overall_gpa_calculator
@@ -80,13 +81,19 @@ def index():
             return render_template('index.html', message=message)
         else:
             hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
-            user_input = {'name': user, 'email': email, 'password': hashed}
-            records.insert_one(user_input)
-
+            
+            try:
+                new_user = Student(user, email, hashed)
+            except:
+                message = 'Please make sure that: Your name is not all numbers, your email is in a correct format (example@website.com), and that you have entered a password'
+                return render_template('index.html', message=message)
+            records.insert_one(new_user.to_dict())
+    
             user_data = records.find_one({"email": email})
             new_email = user_data['email']
 
             return render_template('logged_in.html', email=new_email)
+
     return render_template('index.html')
 
 
