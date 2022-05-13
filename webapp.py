@@ -32,7 +32,9 @@ app.config['SECRET_KEY'] = "fuckit"
 app.config['MONGO_URI'] = 'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongo = PyMongo(app)
 ca = certifi.where()
-mongo = pymongo.MongoClient(f'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', tlsCAFile=ca)
+
+mongo = pymongo.MongoClient(
+    f'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', tlsCAFile=ca)
 db = mongo.db
 
 # Database variables
@@ -93,8 +95,8 @@ def logged_in():
     # homepage backend, ugly as sin and needs a lot of work
     if "email" in session:
         email = session["email"]
-        # .find searches the database for all records that match the argument. 
-        # returns records as a cursor object, cursor object can be broken down into dictionaries. 
+        # .find searches the database for all records that match the argument.
+        # returns records as a cursor object, cursor object can be broken down into dictionaries.
         cursor = transcripts.find({"email": email})
         terms = []
         for document in cursor:
@@ -108,7 +110,7 @@ def logged_in():
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
-    # login page backend. 
+    # login page backend.
     message = 'Please login to your account'
     # is user alread logged in? redirect them to homepage
     if "email" in session:
@@ -146,13 +148,15 @@ def logout():
     else:
         return render_template('index.html')
 
+
 """
 can we use a better name than "demo" for this route?
 """
+
 @app.route('/demo', methods=['GET', 'POST'])
 def demo():
     # gpa calculator backend
-    # imports the gradeform object from form to autogenerate object from inputs    
+    # imports the gradeform object from form to autogenerate object from inputs
     form = GradesForm()
     # check if user is logged in, provides a save function.
     if "email" in session:
@@ -179,10 +183,10 @@ def demo():
                 user_input = {'email': email, 'term': term, 'grades': res}
                 transcripts.insert_one(user_input)
                 return redirect(url_for('logged_in'))
-        #standard render
+        # standard render
         return render_template('gpa_calc.html', form=form, email=email)
     else:
-        #if no user is logged in, provides calculator without function to write to database.
+        # if no user is logged in, provides calculator without function to write to database.
         if form.validate_on_submit():
             grades = form.grades.data
             courses = form.courses.data
@@ -194,6 +198,7 @@ def demo():
             final_gpa = overall_gpa_calculator(course_gpas)
             return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form)
         return render_template('gpa_calc.html', form=form)
+
 
 @app.route("/remove/<id>", methods=["GET", "POST"])
 def delete_grade(id):
@@ -220,6 +225,7 @@ def delete_grade(id):
 #         return render_template('gpa_calc.html', form=form)
 #     else:
 #         return render_template('gpa_calc.html', form=form, email=email)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

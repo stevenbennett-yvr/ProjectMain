@@ -79,15 +79,13 @@ h3 {
 }
 
 #gradesarea {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 50px;
-    background-color: var(--not-blue);
-    width:fit-content;
+    align-self: center;
+    width: 450px;
+    padding: 40px;
+    background: var(--not-blue);
+    box-sizing: border-box;
+    border-radius: 10px;
     height: fit-content;
-    padding-top: 0%;
-    
 }
 
 ul {
@@ -193,6 +191,8 @@ nav a {
     background: var(--not-blue);
     box-sizing: border-box;
     border-radius: 10px;
+    width: 450px;
+    height: 350px;
 }
 
 .form-group {
@@ -253,9 +253,33 @@ p {
 
 .register-area {
     align-self: center;
+    width: 450px;
+    padding: 40px;
+    background: var(--not-blue);
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.saved-grades {
+    align-self: center;
     width: fit-content;
     padding: 40px;
     background: var(--not-blue);
     box-sizing: border-box;
     border-radius: 10px;
+    width: 450px;
+    height: fit-content;
+}
+
+.grades-list {
+    background-color: white;
+    border: solid #2c3e50;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.grades-list li,
+.grades-list p,
+.grades-list h3 {
+    color: var(--not-black);
 }
