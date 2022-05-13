@@ -18,6 +18,7 @@ import certifi
 
 # Custom imports
 from calculator import class_gpa_claculator, overall_gpa_calculator
+""" are we still going to use UserForm? Might be an oppotunity to trim the code here and in forms.py """
 from forms import GradesForm, UserForm
 
 
@@ -30,21 +31,26 @@ app.config['SECRET_KEY'] = "fuckit"
 # Mongo setup
 app.config['MONGO_URI'] = 'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongo = PyMongo(app)
-
 ca = certifi.where()
+
 mongo = pymongo.MongoClient(
     f'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', tlsCAFile=ca)
-
 db = mongo.db
 
 # Database variables
 records = db.register
 transcripts = db.transcripts
 
-
+"""
+this seems to be a "registration" page and not a "home page", perhaps we should rename it? 
+or better yet, make "/" route to "/registration" if not logged in
+"""
 @app.route("/", methods=['post', 'get'])
 def index():
     # Registration page backend
+    """
+    not clear if this message='' line is necessary since message variable is assigned as needed below
+    """
     message = ''
     if "email" in session:
         return redirect(url_for("logged_in"))
@@ -54,6 +60,12 @@ def index():
 
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
+
+
+        """
+        opportunity to insert Student object to validate structure of name and email here
+        if validation does not pass, we can display a message indicating the error
+        """
 
         user_found = records.find_one({"name": user})
         email_found = records.find_one({"email": email})
@@ -136,6 +148,10 @@ def logout():
     else:
         return render_template('index.html')
 
+
+"""
+can we use a better name than "demo" for this route?
+"""
 
 @app.route('/demo', methods=['GET', 'POST'])
 def demo():

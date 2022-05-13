@@ -8,7 +8,7 @@ class GradesForm(FlaskForm):
     courses = FieldList(StringField(''), min_entries=1, max_entries=10)
     grades = FieldList(IntegerField(''), min_entries=1, max_entries=10)
 
-
+""" is this required for our app? """
 class UserForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired()])
