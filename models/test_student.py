@@ -24,3 +24,17 @@ def test_student_invalid():
         Student(name="Luke", email="Luke.com@Tester", password="string1")
     with pytest.raises(PasswordError):
         Student(name="Luke", email="Luke@Tester.com", password=None)
+
+# def test_student_invalid():
+#     with pytest.raises(ValueError):
+#         Student(name=12345, email="Luke@Tester.com", password="string1")
+#     with pytest.raises(ValueError):
+#         Student(name="Luke", email=123456, password="string1")
+#     with pytest.raises(ValueError):
+#         Student(name="Luke", email="Luke@Tester", password="string1")
+#     with pytest.raises(ValueError):
+#         Student(name="Luke", email="Luke.com", password="string1")
+#     with pytest.raises(ValueError):
+#         Student(name="Luke", email="Luke.com@Tester", password="string1")
+#     with pytest.raises(ValueError):
+#         Student(name="Luke", email="Luke@Tester.com", password=None)
