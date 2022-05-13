@@ -11,9 +11,10 @@ from flask import (
     jsonify,
     url_for
 )
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo, pymongo
 from datetime import datetime
 import bcrypt
+import certifi
 
 # Custom imports
 from calculator import class_gpa_claculator, overall_gpa_calculator
@@ -29,6 +30,10 @@ app.config['SECRET_KEY'] = "fuckit"
 # Mongo setup
 app.config['MONGO_URI'] = 'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongo = PyMongo(app)
+
+ca = certifi.where()
+mongo = pymongo.MongoClient(f'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', tlsCAFile=ca)
+
 db = mongo.db
 
 # Database variables
