@@ -9,4 +9,5 @@
 
 <!-- INSTALL ALL PACKAGES -->
 
-pip install bson flask flask_sqlalchemy flask_pymongo flask_wtf wtforms wtforms.validators datetime bcrypt pytest 
+Use the following command to install all dependencies:
+    pip install -r requirements.txt
