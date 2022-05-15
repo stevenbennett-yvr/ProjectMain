@@ -1,5 +1,5 @@
-# imports from pip
-# run `pip install bson flask flask_sqlalchemy flask_pymongo flask_wtf wtforms wtforms.validators datetime bcrypt pytest`
+# pip install -r requirements.txt
+
 from bson import ObjectId
 from flask import (
     Flask,
@@ -72,13 +72,13 @@ def index():
         email_found = records.find_one({"email": email})
         if user_found:
             message = 'There already is a user by that name'
-            return render_template('index.html', message=message)
+            return render_template('index.html', message=message), 200
         if email_found:
             message = 'This email already exists in database'
-            return render_template('index.html', message=message)
+            return render_template('index.html', message=message), 200
         if password1 != password2:
             message = 'Passwords should match!'
-            return render_template('index.html', message=message)
+            return render_template('index.html', message=message), 200
         else:
             hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
             
@@ -86,15 +86,15 @@ def index():
                 new_user = Student(user, email, hashed)
             except:
                 message = 'Please make sure that: Your name is not all numbers, your email is in a correct format (example@website.com), and that you have entered a password'
-                return render_template('index.html', message=message)
+                return render_template('index.html', message=message), 200
             records.insert_one(new_user.to_dict())
     
             user_data = records.find_one({"email": email})
             new_email = user_data['email']
 
-            return render_template('logged_in.html', email=new_email)
+            return render_template('logged_in.html', email=new_email), 201
 
-    return render_template('index.html')
+    return render_template('index.html'), 200
 
 
 @app.route('/logged_in')
@@ -110,9 +110,9 @@ def logged_in():
             print(type(document))
             terms.append(document)
         print(type(terms))
-        return render_template("logged_in.html", email=email, session=session, parent_list=terms)
+        return render_template("logged_in.html", email=email, session=session, parent_list=terms), 201
     else:
-        return redirect(url_for("login"))
+        return redirect(url_for("login")), 200
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -134,16 +134,16 @@ def login():
 
             if bcrypt.checkpw(password.encode('utf-8'), passwordcheck):
                 session["email"] = email_val
-                return redirect(url_for('logged_in'))
+                return redirect(url_for('logged_in')), 201
             else:
                 if "email" in session:
-                    return redirect(url_for("logged_in"))
+                    return redirect(url_for("logged_in")), 201
                 message = 'Wrong password'
-                return render_template('login.html', message=message)
+                return render_template('login.html', message=message), 200
         else:
             message = 'Email not found'
-            return render_template('login.html', message=message)
-    return render_template('login.html', message=message)
+            return render_template('login.html', message=message), 200
+    return render_template('login.html', message=message), 200
 
 
 @app.route("/logout", methods=["POST", "GET"])
@@ -151,9 +151,9 @@ def logout():
     # logout backend. very simple.
     if "email" in session:
         session.pop("email", None)
-        return render_template("signout.html")
+        return render_template("signout.html"), 200
     else:
-        return render_template('index.html')
+        return render_template('index.html'), 200
 
 
 """
@@ -180,7 +180,7 @@ def demo():
                     course_gpas.append(gpa)
                     # course_credits= cred * grade
                 final_gpa = overall_gpa_calculator(course_gpas)
-                return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form, email=email)
+                return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form, email=email), 200
             # writes grades to database.
             if request.form["submit_button"] == "Write":
                 term = form.term.data
@@ -189,9 +189,9 @@ def demo():
                 res = {courses[i]: grades[i] for i in range(len(courses))}
                 user_input = {'email': email, 'term': term, 'grades': res}
                 transcripts.insert_one(user_input)
-                return redirect(url_for('logged_in'))
+                return redirect(url_for('logged_in')), 200
         # standard render
-        return render_template('gpa_calc.html', form=form, email=email)
+        return render_template('gpa_calc.html', form=form, email=email), 201
     else:
         # if no user is logged in, provides calculator without function to write to database.
         if form.validate_on_submit():
@@ -203,8 +203,8 @@ def demo():
                 course_gpas.append(gpa)
                 # course_credits= cred * grade
             final_gpa = overall_gpa_calculator(course_gpas)
-            return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form)
-        return render_template('gpa_calc.html', form=form)
+            return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form), 201
+        return render_template('gpa_calc.html', form=form), 200
 
 
 @app.route("/remove/<id>", methods=["GET", "POST"])
@@ -214,7 +214,7 @@ def delete_grade(id):
         grade = transcripts.find_one({"_id": ObjectId(id)})
         if session["email"] == grade["email"]:
             transcripts.delete_one({"_id": ObjectId(id)})
-            return redirect("/logged_in")
+            return redirect("/logged_in"), 200
         else:
             return "404: invalid permissions", 404
     except:
