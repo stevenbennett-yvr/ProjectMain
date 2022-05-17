@@ -24,7 +24,7 @@ from forms import GradesForm, UserForm
 
 
 # Set up flask
-app = Flask(__name__, template_folder='./templates', static_folder='./CSS')
+app = Flask(__name__, template_folder='./templates', static_folder='./static')
 
 # Session setup, required by flask_mongo and wtform
 app.config['SECRET_KEY'] = "fuckit"
@@ -97,7 +97,7 @@ def index():
     return render_template('index.html'), 200
 
 
-@app.route('/logged_in')
+@app.route('/logged_in/')
 def logged_in():
     # homepage backend, ugly as sin and needs a lot of work
     if "email" in session:
@@ -112,7 +112,7 @@ def logged_in():
         print(type(terms))
         return render_template("logged_in.html", email=email, session=session, parent_list=terms), 201
     else:
-        return redirect(url_for("login")), 200
+        return redirect(url_for("login"))
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -134,10 +134,10 @@ def login():
 
             if bcrypt.checkpw(password.encode('utf-8'), passwordcheck):
                 session["email"] = email_val
-                return redirect(url_for('logged_in')), 201
+                return redirect(url_for('logged_in'))
             else:
                 if "email" in session:
-                    return redirect(url_for("logged_in")), 201
+                    return redirect(url_for("logged_in"))
                 message = 'Wrong password'
                 return render_template('login.html', message=message), 200
         else:
@@ -160,7 +160,7 @@ def logout():
 can we use a better name than "demo" for this route?
 """
 
-@app.route('/demo', methods=['GET', 'POST'])
+@app.route('/gpa_calc', methods=['GET', 'POST'])
 def demo():
     # gpa calculator backend
     # imports the gradeform object from form to autogenerate object from inputs
@@ -189,7 +189,7 @@ def demo():
                 res = {courses[i]: grades[i] for i in range(len(courses))}
                 user_input = {'email': email, 'term': term, 'grades': res}
                 transcripts.insert_one(user_input)
-                return redirect(url_for('logged_in')), 200
+                return redirect(url_for('logged_in'))
         # standard render
         return render_template('gpa_calc.html', form=form, email=email), 201
     else:
@@ -214,7 +214,7 @@ def delete_grade(id):
         grade = transcripts.find_one({"_id": ObjectId(id)})
         if session["email"] == grade["email"]:
             transcripts.delete_one({"_id": ObjectId(id)})
-            return redirect("/logged_in"), 200
+            return redirect("/logged_in")
         else:
             return "404: invalid permissions", 404
     except:
@@ -222,6 +222,7 @@ def delete_grade(id):
 
 # @app.route("/edit/<id>", methods=["GET", "POST"])
 # def grade_update(id):
+# # Edits grades/term record
 #     email = session["email"]
 #     grade = transcripts.find_one({"_id": ObjectId(id)})
 #     term = grade['term']
@@ -232,7 +233,6 @@ def delete_grade(id):
 #         return render_template('gpa_calc.html', form=form)
 #     else:
 #         return render_template('gpa_calc.html', form=form, email=email)
-
 
 if __name__ == "__main__":
     app.run(debug=True)
