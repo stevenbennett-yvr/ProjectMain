@@ -4,4 +4,11 @@
 {% block content %}
 <h1>You are signed out!</h1>
 
+
+<script>
+    setTimeout(function(){
+        window.location.href = "/logged_in/";
+            window.clearTimeout(tID);		// clear time out.
+        }, 5000);
+</script>
 {% endblock %}
