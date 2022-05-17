@@ -102,6 +102,9 @@ def logged_in():
     # homepage backend, ugly as sin and needs a lot of work
     if "email" in session:
         email = session["email"]
+        record = records.find_one({"email": email})
+        name = record["name"]
+        id = record["_id"]
         # .find searches the database for all records that match the argument.
         # returns records as a cursor object, cursor object can be broken down into dictionaries.
         cursor = transcripts.find({"email": email})
@@ -110,7 +113,7 @@ def logged_in():
             print(type(document))
             terms.append(document)
         print(type(terms))
-        return render_template("logged_in.html", email=email, session=session, parent_list=terms), 201
+        return render_template("logged_in.html", email=email, session=session, parent_list=terms, id=id, name=name), 201
     else:
         return redirect(url_for("login"))
 
@@ -220,19 +223,60 @@ def delete_grade(id):
     except:
         return "404: transcript not found", 404
 
-# @app.route("/edit/<id>", methods=["GET", "POST"])
-# def grade_update(id):
-# # Edits grades/term record
-#     email = session["email"]
-#     grade = transcripts.find_one({"_id": ObjectId(id)})
-#     term = grade['term']
-#     grades = grade['grades']
-#     form = GradesForm()
-#     if "email" in session:
+@app.route("/edit/<id>", methods=["GET", "POST"])
+def update_user(id):
 
-#         return render_template('gpa_calc.html', form=form)
-#     else:
-#         return render_template('gpa_calc.html', form=form, email=email)
+    email = session["email"]
+    record = records.find_one({"email": email})
+    id = record["_id"]
+
+    if "email" in session:
+        if request.method == "POST":
+            # does the current password match the records password
+            currentpassword = request.form.get("currentpassword")
+            record = records.find_one({"_id": id})
+            passwordcheck = record['password']
+            if bcrypt.checkpw(currentpassword.encode('utf-8'), passwordcheck):
+                #logic for repalcement
+
+
+                user = request.form.get("fullname")
+                email = request.form.get("email")
+
+                password1 = request.form.get("password1")
+                password2 = request.form.get("password2")
+                
+                user_found = records.find_one({"name": user})
+                email_found = records.find_one({"email": email})
+                if user_found:
+                    message = 'There already is a user by that name'
+                    return render_template('edit_user.html', message=message), 200
+                # if email_found:
+                #     message = 'This email already exists in database'
+                #     return render_template('edit_user.html', message=message), 200
+                if password1 != password2:
+                    message = 'Passwords should match!'
+                    return render_template('edit_user.html', message=message), 200
+                else:
+                    hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
+
+                try:
+                    new_user = Student(user, email, hashed)
+                except:
+                    message = 'Please make sure that: Your name is not all numbers, your email is in a correct format (example@website.com), and that you have entered a password'
+                    return render_template('index.html', message=message), 200               
+                user_data = new_user.to_dict()
+                records.update_one(
+                    {'_id': ObjectId(id)},
+                    {'$set': user_data}
+                )
+            else:
+                message = "Password Incorrect"
+                return render_template('edit_user.html', message=message), 200
+    currentuser = record["name"]
+    currentemail= record["email"]
+    return render_template('edit_user.html', user=currentuser, email=currentemail), 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)
