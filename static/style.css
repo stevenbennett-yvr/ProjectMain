@@ -19,6 +19,7 @@ html {
 button {
     border-radius: 8px;
     background-color: white;
+    border: solid var(--not-grey);
 }
 
 label {
@@ -211,7 +212,6 @@ p {
 
 .btn {
     text-decoration: none;
-    border: 1px solid rgb(146, 148, 248);
     position: relative;
     overflow: hidden;
     padding: 14px 40px;
