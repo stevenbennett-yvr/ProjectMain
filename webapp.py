@@ -1,6 +1,6 @@
 # pip install -r requirements.txt
 
-from bson import ObjectId
+# from bson import ObjectId
 from flask import (
     Flask,
     render_template,
@@ -9,7 +9,7 @@ from flask import (
     session,
     url_for
 )
-from flask_pymongo import PyMongo, pymongo
+from flask_pymongo import PyMongo, pymongo, ObjectId
 import bcrypt
 import certifi
 from models.student import Student
@@ -42,6 +42,8 @@ transcripts = db.transcripts
 this seems to be a "registration" page and not a "home page", perhaps we should rename it? 
 or better yet, make "/" route to "/registration" if not logged in
 """
+
+
 @app.route("/", methods=['post', 'get'])
 def index():
     if "email" in session:
@@ -55,7 +57,7 @@ def index():
 
         user_found = records.find_one({"name": user})
         email_found = records.find_one({"email": email})
-        
+
         if user_found:
             message = 'There already is a user by that name'
             return render_template('index.html', message=message), 200
@@ -67,14 +69,14 @@ def index():
             return render_template('index.html', message=message), 200
         else:
             hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
-            
+
             try:
                 new_user = Student(user, email, hashed)
             except:
                 message = 'Please make sure that: Your name is not all numbers, your email is in a correct format (example@website.com), and that you have entered a password'
                 return render_template('index.html', message=message), 200
             records.insert_one(new_user.to_dict())
-    
+
             user_data = records.find_one({"email": email})
             new_email = user_data['email']
 
@@ -149,6 +151,7 @@ def logout():
 can we use a better name than "demo" for this route?
 """
 
+
 @app.route('/gpa_calc', methods=['GET', 'POST'])
 def gpa_calc():
     # gpa calculator backend
@@ -184,7 +187,8 @@ def gpa_calc():
                     # course_credits= cred * grade
                 final_gpa = overall_gpa_calculator(course_gpas)
                 res = {courses[i]: grades[i] for i in range(len(courses))}
-                user_input = {'userid': id, 'term': term, 'gpa': final_gpa, 'grades': res}
+                user_input = {'userid': id, 'term': term,
+                              'gpa': final_gpa, 'grades': res}
                 transcripts.insert_one(user_input)
                 return redirect(url_for('logged_in'))
         # standard render
@@ -220,6 +224,7 @@ def delete_grade(id):
     except:
         return "404: transcript not found", 404
 
+
 @app.route("/edit/<id>", methods=["GET", "POST"])
 def update_user(id):
 
@@ -234,15 +239,14 @@ def update_user(id):
             record = records.find_one({"_id": id})
             passwordcheck = record['password']
             if bcrypt.checkpw(currentpassword.encode('utf-8'), passwordcheck):
-                #logic for repalcement
-
+                # logic for repalcement
 
                 user = request.form.get("fullname")
                 email = request.form.get("email")
 
                 password1 = request.form.get("password1")
                 password2 = request.form.get("password2")
-                
+
                 # user_found = records.find_one({"name": user})
                 # email_found = records.find_one({"email": email})
                 # if user_found:
@@ -255,13 +259,14 @@ def update_user(id):
                     message = 'Passwords should match!'
                     return render_template('edit_user.html', message=message), 200
                 else:
-                    hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
+                    hashed = bcrypt.hashpw(
+                        password2.encode('utf-8'), bcrypt.gensalt())
 
                 try:
                     new_user = Student(user, email, hashed)
                 except:
                     message = 'Please make sure that: Your name is not all numbers, your email is in a correct format (example@website.com), and that you have entered a password'
-                    return render_template('index.html', message=message), 200               
+                    return render_template('index.html', message=message), 200
                 user_data = new_user.to_dict()
                 records.update_one(
                     {'_id': ObjectId(id)},
@@ -272,7 +277,7 @@ def update_user(id):
                 message = "Password Incorrect"
                 return render_template('edit_user.html', message=message), 200
     currentuser = record["name"]
-    currentemail= record["email"]
+    currentemail = record["email"]
     return render_template('edit_user.html', user=currentuser, email=currentemail), 200
 
 
