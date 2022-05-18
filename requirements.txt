@@ -1,7 +1,6 @@
 atomicwrites==1.4.0
 attrs==21.4.0
 bcrypt==3.2.2
-bson==0.5.10
 certifi==2021.10.8
 cffi==1.15.0
 click==8.1.3
