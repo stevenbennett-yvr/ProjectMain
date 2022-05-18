@@ -30,9 +30,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         
-      - name: run pytest
-        run: pytest        
-        
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
       - name: Upload artifact for deployment jobs
@@ -63,4 +60,4 @@ jobs:
         with:
           app-name: 'desig9'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D4AEFD75DAD04C52B08A4D354379C4C8 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B9D1CCF016A9468DA839F24538717BA1 }}
