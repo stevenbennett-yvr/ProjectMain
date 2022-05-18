@@ -283,3 +283,17 @@ p {
 .grades-list h3 {
     color: var(--not-black);
 }
+
+#courses {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+
+#grades {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 10px;
+}
