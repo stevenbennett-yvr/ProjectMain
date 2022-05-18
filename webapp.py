@@ -5,29 +5,25 @@ from flask import (
     Flask,
     render_template,
     redirect,
-    flash,
     request,
     session,
-    jsonify,
     url_for
 )
 from flask_pymongo import PyMongo, pymongo
-from datetime import datetime
 import bcrypt
 import certifi
 from models.student import Student
 
 # Custom imports
 from calculator import class_gpa_claculator, overall_gpa_calculator
-""" are we still going to use UserForm? Might be an oppotunity to trim the code here and in forms.py """
-from forms import GradesForm, UserForm
+from forms import GradesForm
 
 
 # Set up flask
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
 
 # Session setup, required by flask_mongo and wtform
-app.config['SECRET_KEY'] = "fuckit"
+app.config['SECRET_KEY'] = "123123"
 
 # Mongo setup
 app.config['MONGO_URI'] = 'mongodb+srv://acit2911:acit2911@cluster0.nrjoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
@@ -48,11 +44,6 @@ or better yet, make "/" route to "/registration" if not logged in
 """
 @app.route("/", methods=['post', 'get'])
 def index():
-    # Registration page backend
-    """
-    not clear if this message='' line is necessary since message variable is assigned as needed below
-    """
-    message = ''
     if "email" in session:
         return redirect(url_for("logged_in"))
     if request.method == "POST":
@@ -62,14 +53,9 @@ def index():
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
 
-
-        """
-        opportunity to insert Student object to validate structure of name and email here
-        if validation does not pass, we can display a message indicating the error
-        """
-
         user_found = records.find_one({"name": user})
         email_found = records.find_one({"email": email})
+        
         if user_found:
             message = 'There already is a user by that name'
             return render_template('index.html', message=message), 200
@@ -164,7 +150,7 @@ can we use a better name than "demo" for this route?
 """
 
 @app.route('/gpa_calc', methods=['GET', 'POST'])
-def demo():
+def gpa_calc():
     # gpa calculator backend
     # imports the gradeform object from form to autogenerate object from inputs
     form = GradesForm()
