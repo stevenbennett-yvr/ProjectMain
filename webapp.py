@@ -1,6 +1,6 @@
 # pip install -r requirements.txt
 
-# from bson import ObjectId
+from bson import ObjectId
 from flask import (
     Flask,
     render_template,
@@ -9,7 +9,7 @@ from flask import (
     session,
     url_for
 )
-from flask_pymongo import PyMongo, pymongo, ObjectId
+from flask_pymongo import PyMongo, pymongo
 import bcrypt
 import certifi
 from models.student import Student
