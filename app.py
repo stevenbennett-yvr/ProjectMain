@@ -167,7 +167,7 @@ def gpa_calc():
                     course_gpas.append(gpa)
                     # course_credits= cred * grade
                 final_gpa = overall_gpa_calculator(course_gpas)
-                return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form), 200
+                return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form, email=email), 200
             # writes grades to database.
             if request.form["submit_button"] == "Write":
                 term = form.term.data
