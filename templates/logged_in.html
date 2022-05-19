@@ -7,7 +7,7 @@
 
 <div class="saved-grades"> 
     <p>Hello {{name}}! You have Logged in as {{ email }}</p>
-    <a class="nav-item nav-link" href="/edit/{{id}}">edit account</a>
+    <a class="nav-item nav-link" href="/user_edit/{{id}}">edit account</a>
 
     <h1>Grades List</h1>
     <li>
@@ -22,7 +22,10 @@
          <form action="/remove/{{ dict_item['_id'] }}" method="post">
             <button id='delete-button' name="delete_button" type="submit">Delete</button>
          </form>
-        {% endfor %}
+         <form action="/term_edit/{{ dict_item['_id'] }}" method="post">
+            <button id='edit-button' name="edit_button" type="submit">Edit</button>
+         </form>
+         {% endfor %}
     </section>
 </div>
 {% endblock %}
