@@ -68,6 +68,11 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    text-align: center;
+    color: var(--not-black);
+}
+
 h3 {
     text-align: center;
     color: white;
@@ -261,16 +266,17 @@ p {
 }
 
 .saved-grades {
-    align-self: center;
-    width: fit-content;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    max-width: fit-content;
     padding: 40px;
     background: var(--not-blue);
     box-sizing: border-box;
     border-radius: 10px;
-    width: 450px;
+    width: 500px;
     height: fit-content;
 }
-
 .grades-list {
     background-color: white;
     border: solid #2c3e50;
@@ -296,4 +302,8 @@ p {
     flex-direction: column;
     justify-content: space-evenly;
     gap: 10px;
+}
+
+.saved-grades a {
+    color:white;
 }
