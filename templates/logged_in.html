@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block title %}Youv'e logged in {% endblock %}
-
 {% block content %}
 
 
@@ -10,21 +9,25 @@
 
     <h1>Grades List</h1>
     <li>
-        {% for dict_item in parent_list %}
-            <section class="grades-list">
-                <h2>Term: {{dict_item['term']}}</h2>
-                <h3>grades</h3>
 
+    
+    {% for dict_item in parent_list %}
+        <section class="grades-list">
+            <h2>Term: {{dict_item['term']}}</h2>
+            <h3>grades</h3>
             {% for key, value in dict_item['grades'].items() %}
             <p> {{key}} : {{value}}</p>
-         {% endfor %}
-         <form action="/remove/{{ dict_item['_id'] }}" method="post">
+            {% endfor %}
+            <div class="gradeslistarea">
+            <form action="/remove/{{ dict_item['_id'] }}" method="post">
             <button id='delete-button' name="delete_button" type="submit">Delete</button>
-         </form>
-         <form action="/term_edit/{{ dict_item['_id'] }}" method="post">
+            </form>
+            <form action="/term_edit/{{ dict_item['_id'] }}" method="post">
             <button id='edit-button' name="edit_button" type="submit">Edit</button>
-         </form>
-         {% endfor %}
-    </section>
+            </form>
+            </div>
+        </section>
+    {% endfor %}
+
 </div>
 {% endblock %}
