@@ -264,14 +264,16 @@ def update_user(id):
                         pass
                 password1 = request.form.get("password1")
                 password2 = request.form.get("password2")
-                if password2 is not None:
-                    if password1 != None and password1 != password2:
+                if password2 != None and password1 != None:
+                    if password1 != password2:
                         message = 'Passwords should match!'
                         return render_template('edit_user.html', message=message), 200
                     else:
                         hashed = bcrypt.hashpw(
                             password2.encode('utf-8'), bcrypt.gensalt())
                         user_data['password']=hashed
+                else:
+                    pass
                 records.update_one(
                     {'_id': ObjectId(id)},
                     {'$set': user_data}
