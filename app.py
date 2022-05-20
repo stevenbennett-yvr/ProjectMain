@@ -12,6 +12,7 @@ from flask import (
 from flask_pymongo import PyMongo, pymongo
 import bcrypt
 import certifi
+from sqlalchemy import null
 from models.student import Student
 
 # Custom imports
@@ -180,8 +181,10 @@ def gpa_calc():
                     # course_credits= cred * grade
                 final_gpa = overall_gpa_calculator(course_gpas)
                 res = {courses[i]: grades[i] for i in range(len(courses))}
-                user_input = {'userid': id, 'term': term,
-                              'gpa': final_gpa, 'grades': res}
+                user_input = {'userid': id, 
+                            'term': term,
+                            'gpa': final_gpa, 
+                            'grades': res}
                 transcripts.insert_one(user_input)
                 return redirect(url_for('logged_in'))
         # standard render
@@ -248,7 +251,7 @@ def update_user(id):
                 # if email_found:
                 #     message = 'This email already exists in database'
                 #     return render_template('edit_user.html', message=message), 200
-                if password1 != password2:
+                if password1 != None and password1 != password2:
                     message = 'Passwords should match!'
                     return render_template('edit_user.html', message=message), 200
                 else:
@@ -294,7 +297,7 @@ def update_term(id):
                 gpa = class_gpa_claculator(grade)
                 course_gpas.append(gpa)
             final_gpa = overall_gpa_calculator(course_gpas)
-            return render_template('edit_term.html', form=form, currentterm=term, currentcourses=courses, currentgrades=grades, gpa=final_gpa), 200
+            return render_template('edit_term.html', form=form, currentterm=term, courses=courses, grades=grades, gpa=final_gpa), 200
         if request.form["submit_button"] == "Write":
             term = form.term.data
             grades = form.grades.data
@@ -307,11 +310,12 @@ def update_term(id):
             final_gpa = overall_gpa_calculator(course_gpas)
             res = {courses[i]: grades[i] for i in range(len(courses))}
             user_input = {'term': term,
-                          'gpa': final_gpa, 'grades': res}
+                          'gpa': final_gpa, 
+                          'grades': res}
             transcripts.update_one({'_id': ObjectId(id)},
                                    {'$set': user_input})
             return redirect(url_for('logged_in'))
-    return render_template('edit_term.html', form=form, currentterm=currentterm, currentcourses=courses, currentgrades=grades), 200
+    return render_template('edit_term.html', form=form, currentterm=currentterm, courses=courses, grades=grades), 200
 
 
 if __name__ == "__main__":

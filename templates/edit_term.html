@@ -20,18 +20,23 @@
         <section class="course-grade-area">
 
             <ul id="courses">
-            {% for course in currentcourses %}
+            {% for i in courses %}
+            {% set course = courses[loop.index-1] %}
+            {% set grade = grades[loop.index-1] %}
+
             <li>
             <label for="courses"></label>
-            <input id="courses-{{currentcourses.index(course)}}" name="courses-{{currentcourses.index(course)}}" type="text" value={{course}}>
+            <input id="courses-{{courses.index(course)}}" name="courses-{{courses.index(course)}}" type="text" value={{course}}>
             </li>
             {% endfor %}
             </ul>
             <ul id="grades">
-            {% for grade in currentgrades %}
+                {% for i in courses %}
+                {% set course = courses[loop.index-1] %}
+                {% set grade = grades[loop.index-1] %}
             <li>
             <label for="grades"></label>
-            <input id="grades-{{currentgrades.index(grade)}}" name="grades-{{currentgrades.index(grade)}}" type="number" value={{grade}}>
+            <input id="grades-{{courses.index(course)}}" name="grades-{{courses.index(course)}}" type="number" value={{grade}}>
             </li>
             {% endfor %}
         </ul>
