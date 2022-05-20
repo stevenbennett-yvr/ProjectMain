@@ -36,7 +36,9 @@ window.onload = function() {
     removegradeFieldBtn.addEventListener('click', function(e){
         e.preventDefault();
         var select = document.getElementById('courses');
-        select.removeChild(select.lastElementChild);
+        if (select.firstElementChild != select.lastElementChild) {
+        select.removeChild(select.lastElementChild);   
         var select = document.getElementById('grades');
         select.removeChild(select.lastElementChild);
+    }
     });}
