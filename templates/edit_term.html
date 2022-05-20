@@ -23,7 +23,7 @@
             {% for course in currentcourses %}
             <li>
             <label for="courses"></label>
-            <input id="courses" name="courses-{{currentcourses.index(course)}}" type="text" value={{course}}>
+            <input id="courses-{{currentcourses.index(course)}}" name="courses-{{currentcourses.index(course)}}" type="text" value={{course}}>
             </li>
             {% endfor %}
             </ul>
@@ -31,7 +31,7 @@
             {% for grade in currentgrades %}
             <li>
             <label for="grades"></label>
-            <input id="grades" name="grades-{{currentgrades.index(grade)}}" type="number" value={{grade}}>
+            <input id="grades-{{currentgrades.index(grade)}}" name="grades-{{currentgrades.index(grade)}}" type="number" value={{grade}}>
             </li>
             {% endfor %}
         </ul>
