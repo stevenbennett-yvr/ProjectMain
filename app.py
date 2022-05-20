@@ -52,6 +52,7 @@ def index():
     if request.method == "POST":
         user = request.form.get("fullname")
         email = request.form.get("email")
+        email.lower()
 
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
@@ -80,9 +81,8 @@ def index():
 
             user_data = records.find_one({"email": email})
             new_email = user_data['email']
-
-            return render_template('logged_in.html', email=new_email), 201
-
+            session["email"] = email
+            return redirect(url_for("logged_in"))
     return render_template('index.html'), 200
 
 
@@ -91,6 +91,7 @@ def logged_in():
     # homepage backend, ugly as sin and needs a lot of work
     if "email" in session:
         email = session["email"]
+        email.lower()
         record = records.find_one({"email": email})
         name = record["name"]
         id = record["_id"]
@@ -227,7 +228,8 @@ def update_user(id):
     email = session["email"]
     record = records.find_one({"email": email})
     user_id = record["_id"]
-
+    currentuser = record["name"]
+    currentemail = record["email"]
     if "email" in session:
         if request.method == "POST":
             # does the current password match the records password
@@ -236,34 +238,39 @@ def update_user(id):
             passwordcheck = record['password']
             if bcrypt.checkpw(currentpassword.encode('utf-8'), passwordcheck):
                 # logic for repalcement
-
-                user = request.form.get("fullname")
-                email = request.form.get("email")
-
+                user_data={}
+                newname = request.form.get("fullname")
+                if newname is not None:
+                    if newname != currentuser:
+                        user_found = records.find_one({"name": newname})
+                        if user_found:
+                            message = 'There already is a user by that name'
+                            return render_template('edit_user.html', message=message), 200
+                        else:
+                            user_data["name"]=newname
+                    pass
+                newemail = request.form.get("email")
+                newemail.lower()
+                if newemail is not None:
+                    if newemail != currentemail:
+                        email_found = records.find_one({"email": newemail})
+                        if email_found:
+                            message = 'This email already exists in database'
+                            return render_template('edit_user.html', message=message), 200
+                        else:
+                            user_data["email"] = newemail
+                    else:
+                        pass
                 password1 = request.form.get("password1")
                 password2 = request.form.get("password2")
-
-                # user_found = records.find_one({"name": user})
-                # email_found = records.find_one({"email": email})
-                # if user_found:
-                #     message = 'There already is a user by that name'
-                #     return render_template('edit_user.html', message=message), 200
-                # if email_found:
-                #     message = 'This email already exists in database'
-                #     return render_template('edit_user.html', message=message), 200
-                if password1 != None and password1 != password2:
-                    message = 'Passwords should match!'
-                    return render_template('edit_user.html', message=message), 200
-                else:
-                    hashed = bcrypt.hashpw(
-                        password2.encode('utf-8'), bcrypt.gensalt())
-
-                try:
-                    new_user = Student(user, email, hashed)
-                except:
-                    message = 'Please make sure that: Your name is not all numbers, your email is in a correct format (example@website.com), and that you have entered a password'
-                    return render_template('index.html', message=message), 200
-                user_data = new_user.to_dict()
+                if password2 is not None:
+                    if password1 != None and password1 != password2:
+                        message = 'Passwords should match!'
+                        return render_template('edit_user.html', message=message), 200
+                    else:
+                        hashed = bcrypt.hashpw(
+                            password2.encode('utf-8'), bcrypt.gensalt())
+                        user_data['password']=hashed
                 records.update_one(
                     {'_id': ObjectId(id)},
                     {'$set': user_data}
@@ -272,8 +279,6 @@ def update_user(id):
             else:
                 message = "Password Incorrect"
                 return render_template('edit_user.html', message=message), 200
-    currentuser = record["name"]
-    currentemail = record["email"]
     return render_template('edit_user.html', user=currentuser, email=currentemail), 200
 
 
