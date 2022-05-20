@@ -51,11 +51,19 @@ def index():
         return redirect(url_for("logged_in"))
     if request.method == "POST":
         user = request.form.get("fullname")
+        if user == "":
+            message="Name required"
+            return render_template('index.html', message=message), 200      
         email = request.form.get("email")
         email.lower()
-
+        if email == "":
+            message="Email required"
+            return render_template('index.html', message=message), 200
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
+        if password2 == "":
+            message="Password required"
+            return render_template('index.html', message=message), 200
 
         user_found = records.find_one({"name": user})
         email_found = records.find_one({"email": email})
@@ -241,7 +249,7 @@ def update_user(id):
                 # logic for repalcement
                 user_data={}
                 newname = request.form.get("fullname")
-                if newname is not None:
+                if newname != "":
                     if newname != currentuser:
                         user_found = records.find_one({"name": newname})
                         if user_found:
@@ -250,9 +258,11 @@ def update_user(id):
                         else:
                             user_data["name"]=newname
                     pass
+                else:
+                    pass
                 newemail = request.form.get("email")
                 newemail.lower()
-                if newemail is not None:
+                if newemail != "":
                     if newemail != currentemail:
                         email_found = records.find_one({"email": newemail})
                         if email_found:
@@ -264,7 +274,7 @@ def update_user(id):
                         pass
                 password1 = request.form.get("password1")
                 password2 = request.form.get("password2")
-                if password2 != None and password1 != None:
+                if password2 != "" and password1 != "":
                     if password1 != password2:
                         message = 'Passwords should match!'
                         return render_template('edit_user.html', message=message), 200
@@ -274,6 +284,7 @@ def update_user(id):
                         user_data['password']=hashed
                 else:
                     pass
+                print(f"{password2}")
                 records.update_one(
                     {'_id': ObjectId(id)},
                     {'$set': user_data}
