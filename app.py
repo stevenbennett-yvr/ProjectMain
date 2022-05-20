@@ -45,7 +45,7 @@ or better yet, make "/" route to "/registration" if not logged in
 """
 
 
-@app.route("/", methods=['post', 'get'])
+@app.route("/register", methods=['post', 'get'])
 def index():
     if "email" in session:
         return redirect(url_for("logged_in"))
@@ -103,10 +103,10 @@ def logged_in():
             terms.append(document)
         return render_template("logged_in.html", email=email, session=session, parent_list=terms, user_id=id, name=name), 201
     else:
-        return redirect(url_for("login"))
+        return redirect(url_for("/"))
 
 
-@app.route("/login", methods=["POST", "GET"])
+@app.route("/", methods=["POST", "GET"])
 def login():
     # login page backend.
     message = 'Please login to your account'
@@ -142,7 +142,8 @@ def logout():
     # logout backend. very simple.
     if "email" in session:
         session.pop("email", None)
-        return render_template("signout.html"), 200
+        message="You are signed out!"
+        return render_template("signout.html", message=message), 200
     else:
         return render_template('index.html'), 200
 
@@ -275,7 +276,10 @@ def update_user(id):
                     {'_id': ObjectId(id)},
                     {'$set': user_data}
                 )
-                return redirect("/logout")
+                if "email" in session:
+                    session.pop("email", None)
+                    message="You have successfully changed your account information, please log in again!"
+                    return render_template("signout.html", message=message), 200
             else:
                 message = "Password Incorrect"
                 return render_template('edit_user.html', message=message), 200

@@ -18,6 +18,7 @@
             {% for key, value in dict_item['grades'].items() %}
             <p> {{key}} : {{value}}</p>
             {% endfor %}
+            <h2>GPA: {{dict_item['gpa']}}</h2>
             <div class="gradeslistarea">
             <form action="/remove/{{ dict_item['_id'] }}" method="post">
             <button id='delete-button' name="delete_button" type="submit">Delete</button>
