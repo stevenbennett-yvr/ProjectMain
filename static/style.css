@@ -277,6 +277,7 @@ p {
     width: 500px;
     height: fit-content;
 }
+
 .grades-list {
     background-color: white;
     border: solid #2c3e50;
@@ -317,4 +318,17 @@ p {
 #register-link {
     display: flex;
     justify-content: center;
+}
+
+.gradeslistarea {
+    display: flex;
+    justify-content: flex-start;
+    text-align: center;
+}
+
+#delete-button, #edit-button {
+    border-radius: 0%;
+    border: 1px solid rgba(255,255,255,.5);
+    text-decoration: underline;
+    font-weight: bold;
 }
