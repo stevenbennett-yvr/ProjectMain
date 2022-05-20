@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 {% block title %}Youv'e logged in {% endblock %}
 
@@ -11,11 +10,11 @@
 
     <h1>Grades List</h1>
     <li>
-
-    <section class="grades-list">
         {% for dict_item in parent_list %}
-            <p>Term: {{dict_item['term']}}</p>
+            <section class="grades-list">
+                <h2>Term: {{dict_item['term']}}</h2>
                 <h3>grades</h3>
+
             {% for key, value in dict_item['grades'].items() %}
             <p> {{key}} : {{value}}</p>
          {% endfor %}
