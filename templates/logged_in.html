@@ -6,7 +6,7 @@
 
 <div class="saved-grades"> 
     <p>Hello {{name}}! You have Logged in as {{ email }}</p>
-    <a class="nav-item nav-link" href="/edit/{{id}}">edit account</a>
+    <a class="nav-item nav-link" href="/user_edit/{{id}}">edit account</a>
 
     <h1>Grades List</h1>
     <li>
@@ -14,13 +14,17 @@
             <section class="grades-list">
                 <h2>Term: {{dict_item['term']}}</h2>
                 <h3>grades</h3>
-                {% for key, value in dict_item['grades'].items() %}
-                <p> {{key}} : {{value}}</p>
-            {% endfor %}
-            <form action="/remove/{{ dict_item['_id'] }}" method="post">
-                <button id='delete-button' name="delete_button" type="submit">Delete</button>
-            </form>
-            </section>
-        {% endfor %}
+
+            {% for key, value in dict_item['grades'].items() %}
+            <p> {{key}} : {{value}}</p>
+         {% endfor %}
+         <form action="/remove/{{ dict_item['_id'] }}" method="post">
+            <button id='delete-button' name="delete_button" type="submit">Delete</button>
+         </form>
+         <form action="/term_edit/{{ dict_item['_id'] }}" method="post">
+            <button id='edit-button' name="edit_button" type="submit">Edit</button>
+         </form>
+         {% endfor %}
+    </section>
 </div>
 {% endblock %}

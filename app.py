@@ -98,10 +98,8 @@ def logged_in():
         cursor = transcripts.find({"userid": id})
         terms = []
         for document in cursor:
-            print(type(document))
             terms.append(document)
-        print(type(terms))
-        return render_template("logged_in.html", email=email, session=session, parent_list=terms, id=id, name=name), 201
+        return render_template("logged_in.html", email=email, session=session, parent_list=terms, user_id=id, name=name), 201
     else:
         return redirect(url_for("login"))
 
@@ -147,11 +145,6 @@ def logout():
         return render_template('index.html'), 200
 
 
-"""
-can we use a better name than "demo" for this route?
-"""
-
-
 @app.route('/gpa_calc', methods=['GET', 'POST'])
 def gpa_calc():
     # gpa calculator backend
@@ -163,9 +156,9 @@ def gpa_calc():
         record = records.find_one({"email": email})
         id = record["_id"]
         if form.validate_on_submit():
-            print(request.form['submit_button'])
             # calculates gpa without writing to database.
             if request.form["submit_button"] == "Read":
+                print(form.data)
                 grades = form.grades.data
                 courses = form.courses.data
                 course_gpas = list()
@@ -225,18 +218,18 @@ def delete_grade(id):
         return "404: transcript not found", 404
 
 
-@app.route("/edit/<id>", methods=["GET", "POST"])
+@app.route("/user_edit/<id>", methods=["GET", "POST"])
 def update_user(id):
 
     email = session["email"]
     record = records.find_one({"email": email})
-    id = record["_id"]
+    user_id = record["_id"]
 
     if "email" in session:
         if request.method == "POST":
             # does the current password match the records password
             currentpassword = request.form.get("currentpassword")
-            record = records.find_one({"_id": id})
+            record = records.find_one({"_id": user_id})
             passwordcheck = record['password']
             if bcrypt.checkpw(currentpassword.encode('utf-8'), passwordcheck):
                 # logic for repalcement
@@ -279,6 +272,46 @@ def update_user(id):
     currentuser = record["name"]
     currentemail = record["email"]
     return render_template('edit_user.html', user=currentuser, email=currentemail), 200
+
+
+@app.route("/term_edit/<id>", methods=["GET", "POST"])
+def update_term(id):
+    term = transcripts.find_one({"_id": ObjectId(id)})
+    currentterm = term["term"]
+    currentgrades = term["grades"]
+    courses = currentgrades.keys()
+    grades = currentgrades.values()
+    courses = list(courses)
+    grades = list(grades)
+    form = GradesForm()
+    if form.validate_on_submit():
+        if request.form["submit_button"] == "Read":
+            term = form.term.data
+            grades = form.grades.data
+            courses = form.courses.data
+            course_gpas = list()
+            for grade in grades:
+                gpa = class_gpa_claculator(grade)
+                course_gpas.append(gpa)
+            final_gpa = overall_gpa_calculator(course_gpas)
+            return render_template('edit_term.html', form=form, currentterm=term, currentcourses=courses, currentgrades=grades, gpa=final_gpa), 200
+        if request.form["submit_button"] == "Write":
+            term = form.term.data
+            grades = form.grades.data
+            courses = form.courses.data
+            course_gpas = list()
+            for grade in grades:
+                gpa = class_gpa_claculator(grade)
+                course_gpas.append(gpa)
+                # course_credits= cred * grade
+            final_gpa = overall_gpa_calculator(course_gpas)
+            res = {courses[i]: grades[i] for i in range(len(courses))}
+            user_input = {'term': term,
+                          'gpa': final_gpa, 'grades': res}
+            transcripts.update_one({'_id': ObjectId(id)},
+                                   {'$set': user_input})
+            return redirect(url_for('logged_in'))
+    return render_template('edit_term.html', form=form, currentterm=currentterm, currentcourses=courses, currentgrades=grades), 200
 
 
 if __name__ == "__main__":

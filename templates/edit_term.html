@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}GPA Calculator{% endblock %}
+
+{% block content %}
+<!-- <h1 style="text-align: center;">My grades</h1> -->
+<div id='gradesarea'>
+    <h1>Edit Grades</h1>
+    <form method="POST" action="">
+        {{ form.csrf_token }}
+
+        <h3>Term</h3>
+        <p>
+        {{ form.term(value=currentterm) }}
+        </p>
+        <div class="gradesarea-headings">
+            <h3>Courses</h3>
+            <h3>Grades</h3>
+        </div>
+
+        <section class="course-grade-area">
+
+            <ul id="courses">
+            {% for course in currentcourses %}
+            <li>
+            <label for="courses"></label>
+            <input id="courses" name="courses-{{currentcourses.index(course)}}" type="text" value={{course}}>
+            </li>
+            {% endfor %}
+            </ul>
+            <ul id="grades">
+            {% for grade in currentgrades %}
+            <li>
+            <label for="grades"></label>
+            <input id="grades" name="grades-{{currentgrades.index(grade)}}" type="number" value={{grade}}>
+            </li>
+            {% endfor %}
+        </ul>
+        </section>
+        <div id='buttons'>
+                <button id='submit-button' name="submit_button" type="submit", value="Read">Post grades</button>
+                <button id='add-course-field' type="button">Add course</button>
+                <button id='remove-course-field' type="button">Remove course</button>
+                <button id='save-button' name="submit_button" type="submit" value="Write">Save grades</button>
+        </div>
+
+
+        <div class="gpa-area">
+            <form method="POST" action="">
+                <h3>GPA</h3>
+                {{ form.csrf_token }}
+                <p>{{ gpa }}</p>
+                <!-- {%for course in courses%}
+                <li>{{ course }}</li>
+                {%endfor%}
+                {%for grade in grades%}
+                <li>{{ grade }}</li>
+                {%endfor%} -->
+            </form>
+        </div>
+        
+</div>
+</body>
+</html>
+
+{% endblock %}

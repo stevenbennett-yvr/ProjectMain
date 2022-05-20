@@ -307,3 +307,14 @@ p {
 .saved-grades a {
     color:white;
 }
+
+#register-link a {
+    color: white;
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
+#register-link {
+    display: flex;
+    justify-content: center;
+}
