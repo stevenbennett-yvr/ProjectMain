@@ -4,7 +4,7 @@
 <!-- Braeden Venne-->
 <!-- Allen Li-->
 <!-- Dastan -->
-<!-- Harkaran -->
+
 <!-- Steven -->
 
 <!-- INSTALL ALL PACKAGES -->
