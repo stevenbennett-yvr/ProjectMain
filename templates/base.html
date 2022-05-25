@@ -21,9 +21,9 @@
 
 <nav class="top-nav">
   <ul class="nav-list">
-    {% if session %}
+    {% if 'email' in session %}
     <a class="nav-item nav-link" href="/logout">Logout</a>
-    <a class="nav-item nav-link" href="/logged_in">Grades</a>
+    <a class="nav-item nav-link" href="/homepage">Grades</a>
     {% else %}
     <a class="nav-item nav-link" href="/">Login</a>
     {% endif %}

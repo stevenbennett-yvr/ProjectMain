@@ -39,44 +39,42 @@ db = mongo.db
 records = db.register
 transcripts = db.transcripts
 
-"""
-this seems to be a "registration" page and not a "home page", perhaps we should rename it? 
-or better yet, make "/" route to "/registration" if not logged in
-"""
+
+"""Registration page"""
 
 
 @app.route("/register", methods=['post', 'get'])
-def index():
+def registration():
     if "email" in session:
-        return redirect(url_for("logged_in"))
+        return redirect(url_for("homepage"))
     if request.method == "POST":
         user = request.form.get("fullname")
         if user == "":
-            message="Name required"
-            return render_template('index.html', message=message), 200      
+            message = "Name required"
+            return render_template('register.html', message=message), 200
         email = request.form.get("email")
         email.lower()
         if email == "":
-            message="Email required"
-            return render_template('index.html', message=message), 200
+            message = "Email required"
+            return render_template('register.html', message=message), 200
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
         if password2 == "":
-            message="Password required"
-            return render_template('index.html', message=message), 200
+            message = "Password required"
+            return render_template('register.html', message=message), 200
 
         user_found = records.find_one({"name": user})
         email_found = records.find_one({"email": email})
 
         if user_found:
             message = 'There already is a user by that name'
-            return render_template('index.html', message=message), 200
+            return render_template('register.html', message=message), 200
         if email_found:
             message = 'This email already exists in database'
-            return render_template('index.html', message=message), 200
+            return render_template('register.html', message=message), 200
         if password1 != password2:
             message = 'Passwords should match!'
-            return render_template('index.html', message=message), 200
+            return render_template('register.html', message=message), 200
         else:
             hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
 
@@ -84,18 +82,18 @@ def index():
                 new_user = Student(user, email, hashed)
             except:
                 message = 'Please make sure that: Your name is not all numbers, your email is in a correct format (example@website.com), and that you have entered a password'
-                return render_template('index.html', message=message), 200
+                return render_template('register.html', message=message), 200
             records.insert_one(new_user.to_dict())
 
             user_data = records.find_one({"email": email})
             new_email = user_data['email']
             session["email"] = email
-            return redirect(url_for("logged_in"))
-    return render_template('index.html'), 200
+            return redirect(url_for("homepage"))
+    return render_template('register.html'), 200
 
 
-@app.route('/logged_in/')
-def logged_in():
+@app.route('/homepage/')
+def homepage():
     # homepage backend, ugly as sin and needs a lot of work
     if "email" in session:
         email = session["email"]
@@ -109,7 +107,7 @@ def logged_in():
         terms = []
         for document in cursor:
             terms.append(document)
-        return render_template("logged_in.html", email=email, session=session, parent_list=terms, user_id=id, name=name), 201
+        return render_template("homepage.html", email=email, session=session, parent_list=terms, user_id=id, name=name), 201
     else:
         return redirect(url_for("/"))
 
@@ -120,7 +118,7 @@ def login():
     message = 'Please login to your account'
     # is user alread logged in? redirect them to homepage
     if "email" in session:
-        return redirect(url_for("logged_in"))
+        return redirect(url_for("homepage"))
     # checks that user exists in database, logs them in.
     if request.method == "POST":
         email = request.form.get("email")
@@ -133,10 +131,10 @@ def login():
 
             if bcrypt.checkpw(password.encode('utf-8'), passwordcheck):
                 session["email"] = email_val
-                return redirect(url_for('logged_in'))
+                return redirect(url_for('homepage'))
             else:
                 if "email" in session:
-                    return redirect(url_for("logged_in"))
+                    return redirect(url_for("homepage"))
                 message = 'Wrong password'
                 return render_template('login.html', message=message), 200
         else:
@@ -150,10 +148,10 @@ def logout():
     # logout backend. very simple.
     if "email" in session:
         session.pop("email", None)
-        message="You are signed out!"
+        message = "You are signed out!"
         return render_template("signout.html", message=message), 200
     else:
-        return render_template('index.html'), 200
+        return render_template('login.html'), 200
 
 
 @app.route('/gpa_calc', methods=['GET', 'POST'])
@@ -191,12 +189,12 @@ def gpa_calc():
                     # course_credits= cred * grade
                 final_gpa = overall_gpa_calculator(course_gpas)
                 res = {courses[i]: grades[i] for i in range(len(courses))}
-                user_input = {'userid': id, 
-                            'term': term,
-                            'gpa': final_gpa, 
-                            'grades': res}
+                user_input = {'userid': id,
+                              'term': term,
+                              'gpa': final_gpa,
+                              'grades': res}
                 transcripts.insert_one(user_input)
-                return redirect(url_for('logged_in'))
+                return redirect(url_for('homepage'))
         # standard render
         return render_template('gpa_calc.html', form=form, email=email), 201
     else:
@@ -224,7 +222,7 @@ def delete_grade(id):
         sessionid = record["_id"]
         if sessionid == grade["userid"]:
             transcripts.delete_one({"_id": ObjectId(id)})
-            return redirect("/logged_in")
+            return redirect("/homepage")
         else:
             return "404: invalid permissions", 404
     except:
@@ -247,7 +245,7 @@ def update_user(id):
             passwordcheck = record['password']
             if bcrypt.checkpw(currentpassword.encode('utf-8'), passwordcheck):
                 # logic for repalcement
-                user_data={}
+                user_data = {}
                 newname = request.form.get("fullname")
                 if newname != "":
                     if newname != currentuser:
@@ -256,7 +254,7 @@ def update_user(id):
                             message = 'There already is a user by that name'
                             return render_template('edit_user.html', message=message), 200
                         else:
-                            user_data["name"]=newname
+                            user_data["name"] = newname
                     pass
                 else:
                     pass
@@ -281,7 +279,7 @@ def update_user(id):
                     else:
                         hashed = bcrypt.hashpw(
                             password2.encode('utf-8'), bcrypt.gensalt())
-                        user_data['password']=hashed
+                        user_data['password'] = hashed
                 else:
                     pass
                 print(f"{password2}")
@@ -291,7 +289,7 @@ def update_user(id):
                 )
                 if "email" in session:
                     session.pop("email", None)
-                    message="You have successfully changed your account information, please log in again!"
+                    message = "You have successfully changed your account information, please log in again!"
                     return render_template("signout.html", message=message), 200
             else:
                 message = "Password Incorrect"
@@ -332,11 +330,11 @@ def update_term(id):
             final_gpa = overall_gpa_calculator(course_gpas)
             res = {courses[i]: grades[i] for i in range(len(courses))}
             user_input = {'term': term,
-                          'gpa': final_gpa, 
+                          'gpa': final_gpa,
                           'grades': res}
             transcripts.update_one({'_id': ObjectId(id)},
                                    {'$set': user_input})
-            return redirect(url_for('logged_in'))
+            return redirect(url_for('homepage'))
     return render_template('edit_term.html', form=form, currentterm=currentterm, courses=courses, grades=grades), 200
 
 
