@@ -41,4 +41,5 @@ window.onload = function() {
         var select = document.getElementById('grades');
         select.removeChild(select.lastElementChild);
     }
+        else (window.alert("You must enter grades for at least one course!"))
     });}
