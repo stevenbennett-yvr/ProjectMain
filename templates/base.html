@@ -21,10 +21,12 @@
 
 <nav class="top-nav">
   <ul class="nav-list">
-
-    <a class="nav-item nav-link" href="/">Login</a>
+    {% if session %}
     <a class="nav-item nav-link" href="/logout">Logout</a>
     <a class="nav-item nav-link" href="/logged_in">Grades</a>
+    {% else %}
+    <a class="nav-item nav-link" href="/">Login</a>
+    {% endif %}
     <a class="nav-item nav-link" href="/gpa_calc">GPA Calculator</a>
   </ul>
 </nav>
