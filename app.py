@@ -107,7 +107,12 @@ def homepage():
         terms = []
         for document in cursor:
             terms.append(document)
-        return render_template("homepage.html", email=email, session=session, parent_list=terms, user_id=id, name=name), 201
+        gpa_list = []
+        final_gpa = None
+        for term in terms:
+            gpa_list.append(term.get('gpa'))
+            final_gpa = sum(gpa_list)/len(gpa_list)
+        return render_template("homepage.html", email=email, session=session, parent_list=terms, user_id=id, name=name, final_gpa=final_gpa), 201
     else:
         return redirect(url_for("/"))
 

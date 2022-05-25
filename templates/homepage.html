@@ -8,8 +8,10 @@
     <a class="nav-item nav-link" href="/user_edit/{{user_id}}">edit account</a>
 
     <h1>Grades List</h1>
+    {% if final_gpa %}
+    <p>Total GPA = {{final_gpa}}</p>
+    {% endif %}
     <li>
-
     
     {% for dict_item in parent_list %}
         <section class="grades-list">
