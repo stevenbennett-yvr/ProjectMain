@@ -111,7 +111,7 @@ def homepage():
         final_gpa = None
         for term in terms:
             gpa_list.append(term.get('gpa'))
-            final_gpa = sum(gpa_list)/len(gpa_list)
+            final_gpa = round(sum(gpa_list)/len(gpa_list), 2)
         return render_template("homepage.html", email=email, session=session, parent_list=terms, user_id=id, name=name, final_gpa=final_gpa), 201
     else:
         return redirect(url_for("/"))
