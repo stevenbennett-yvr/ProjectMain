@@ -51,30 +51,30 @@ def registration():
         user = request.form.get("fullname")
         if user == "":
             message = "Name required"
-            return render_template('register.html', message=message), 200
+            return render_template('registration.html', message=message), 200
         email = request.form.get("email")
         email.lower()
         if email == "":
             message = "Email required"
-            return render_template('register.html', message=message), 200
+            return render_template('registration.html', message=message), 200
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
         if password2 == "":
             message = "Password required"
-            return render_template('register.html', message=message), 200
+            return render_template('registration.html', message=message), 200
 
         user_found = records.find_one({"name": user})
         email_found = records.find_one({"email": email})
 
         if user_found:
             message = 'There already is a user by that name'
-            return render_template('register.html', message=message), 200
+            return render_template('registration.html', message=message), 200
         if email_found:
             message = 'This email already exists in database'
-            return render_template('register.html', message=message), 200
+            return render_template('registration.html', message=message), 200
         if password1 != password2:
             message = 'Passwords should match!'
-            return render_template('register.html', message=message), 200
+            return render_template('registration.html', message=message), 200
         else:
             hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
 
@@ -82,14 +82,14 @@ def registration():
                 new_user = Student(user, email, hashed)
             except:
                 message = 'Please make sure that: Your name is not all numbers, your email is in a correct format (example@website.com), and that you have entered a password'
-                return render_template('register.html', message=message), 200
+                return render_template('registration.html', message=message), 200
             records.insert_one(new_user.to_dict())
 
             user_data = records.find_one({"email": email})
             new_email = user_data['email']
             session["email"] = email
             return redirect(url_for("homepage"))
-    return render_template('register.html'), 200
+    return render_template('registration.html'), 200
 
 
 @app.route('/homepage/')
