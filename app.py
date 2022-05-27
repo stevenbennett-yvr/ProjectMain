@@ -1,3 +1,5 @@
+# pip install -r requirements.txt
+
 from bson import ObjectId
 from flask import (
     Flask,
@@ -10,12 +12,13 @@ from flask import (
 from flask_pymongo import PyMongo, pymongo
 import bcrypt
 import certifi
+from sqlalchemy import null
+from models.student import Student
 
 # Custom imports
-from models.student import EmailError, NameValueError, PasswordError
-from models.student import Student
-from utility.calculator import final_gpa_calculator, list_of_course_gpas
+from calculator import class_gpa_claculator, overall_gpa_calculator
 from forms import GradesForm
+
 
 # Set up flask
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
@@ -77,15 +80,6 @@ def registration():
 
             try:
                 new_user = Student(user, email, hashed)
-            except NameValueError:
-                message = 'Name must be a string'
-                return render_template('registration.html', message=message), 200
-            except PasswordError:
-                message = 'Please enter a password to create an account'
-                return render_template('registration.html', message=message), 200
-            except EmailError:
-                message = 'Please enter an email in the correct format "***@***.ca", must end in .com or .ca'
-                return render_template('registration.html', message=message), 200
             except:
                 message = 'Please make sure that: Your name is not all numbers, your email is in a correct format (example@website.com), and that you have entered a password'
                 return render_template('registration.html', message=message), 200
@@ -100,7 +94,7 @@ def registration():
 
 @app.route('/homepage/')
 def homepage():
-    # homepage backend
+    # homepage backend, ugly as sin and needs a lot of work
     if "email" in session:
         email = session["email"]
         email.lower()
@@ -181,24 +175,31 @@ def gpa_calc():
                 print(form.data)
                 grades = form.grades.data
                 courses = form.courses.data
-                course_gpas = list_of_course_gpas(grades)
-                final_gpa = final_gpa_calculator(grades)
+                course_gpas = list()
+                for grade in grades:
+                    gpa = class_gpa_claculator(grade)
+                    course_gpas.append(gpa)
+                    # course_credits= cred * grade
+                final_gpa = overall_gpa_calculator(course_gpas)
                 return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form, email=email), 200
             # writes grades to database.
             if request.form["submit_button"] == "Write":
                 term = form.term.data
                 grades = form.grades.data
                 courses = form.courses.data
-                course_gpas = list_of_course_gpas(grades)
-                final_gpa = final_gpa_calculator(grades)
+                course_gpas = list()
+                for grade in grades:
+                    gpa = class_gpa_claculator(grade)
+                    course_gpas.append(gpa)
+                    # course_credits= cred * grade
+                final_gpa = overall_gpa_calculator(course_gpas)
                 res = {courses[i]: grades[i] for i in range(len(courses))}
                 user_input = {'userid': id,
-                            'term': term,
-                            'gpa': final_gpa,
-                            'grades': res}
+                              'term': term,
+                              'gpa': final_gpa,
+                              'grades': res}
                 transcripts.insert_one(user_input)
                 return redirect(url_for('homepage'))
-                
         # standard render
         return render_template('gpa_calc.html', form=form, email=email), 201
     else:
@@ -206,8 +207,12 @@ def gpa_calc():
         if form.validate_on_submit():
             grades = form.grades.data
             courses = form.courses.data
-            course_gpas = list_of_course_gpas(grades)
-            final_gpa = final_gpa_calculator(grades)
+            course_gpas = list()
+            for grade in grades:
+                gpa = class_gpa_claculator(grade)
+                course_gpas.append(gpa)
+                # course_credits= cred * grade
+            final_gpa = overall_gpa_calculator(course_gpas)
             return render_template('gpa_calc.html', courses=courses, gpa=final_gpa, grades=course_gpas, form=form), 201
         return render_template('gpa_calc.html', form=form), 200
 
@@ -244,7 +249,7 @@ def update_user(id):
             record = records.find_one({"_id": user_id})
             passwordcheck = record['password']
             if bcrypt.checkpw(currentpassword.encode('utf-8'), passwordcheck):
-                # logic for replacement
+                # logic for repalcement
                 user_data = {}
                 newname = request.form.get("fullname")
                 if newname != "":
@@ -312,13 +317,22 @@ def update_term(id):
             term = form.term.data
             grades = form.grades.data
             courses = form.courses.data
-            final_gpa = final_gpa_calculator(grades)
+            course_gpas = list()
+            for grade in grades:
+                gpa = class_gpa_claculator(grade)
+                course_gpas.append(gpa)
+            final_gpa = overall_gpa_calculator(course_gpas)
             return render_template('edit_term.html', form=form, currentterm=term, courses=courses, grades=grades, gpa=final_gpa), 200
         if request.form["submit_button"] == "Write":
             term = form.term.data
             grades = form.grades.data
             courses = form.courses.data
-            final_gpa = final_gpa_calculator(grades)
+            course_gpas = list()
+            for grade in grades:
+                gpa = class_gpa_claculator(grade)
+                course_gpas.append(gpa)
+                # course_credits= cred * grade
+            final_gpa = overall_gpa_calculator(course_gpas)
             res = {courses[i]: grades[i] for i in range(len(courses))}
             user_input = {'term': term,
                           'gpa': final_gpa,

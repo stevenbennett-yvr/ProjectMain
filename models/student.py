@@ -15,8 +15,8 @@ class Student():
         else:
             try:
                 email_at=email.find('@')
-                email_dotc=email.find('.c')
-                if email_at>0 and email_dotc>0 and email_at < email_dotc: self.email=email
+                email_com=email.find('.com')
+                if email_at>0 and email_com>0 and email_at < email_com: self.email=email
                 else: raise EmailError
             except: raise EmailError
 

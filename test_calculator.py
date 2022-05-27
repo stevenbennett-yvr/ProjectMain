@@ -1,4 +1,4 @@
-from calculator import class_gpa_claculator, overall_gpa_calculator, list_of_course_gpas, final_gpa_calculator
+from calculator import class_gpa_claculator, overall_gpa_calculator
 import pytest
 
 def test_calculation():
@@ -31,11 +31,3 @@ def test_overall_gpa_calculator_TypeError():
     course_gpas = ('string1', 'string2', 'string3', 'string4')
     with pytest.raises(TypeError):
         overall_gpa_calculator(course_gpas)
-
-def test_list_of_course_gpas():
-    grades=(100,99,86,38)
-    assert list_of_course_gpas(grades) == [4.0, 4.0, 3.0, 0]
-
-def test_final_gpa_calculator():
-    grades=(100,99,86,38)
-    assert final_gpa_calculator(grades) == 2.75
