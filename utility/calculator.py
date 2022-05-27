@@ -42,10 +42,20 @@ def class_gpa_claculator(grade=int):
     elif grade >= 0 and grade < 60:
         return  0
 
-def overall_gpa_calculator(course_gpas:list,course_credits=0):
+def overall_gpa_calculator(course_gpas:list):
     try:
-        # total_credits=course_credits*len(course_credits)
         final_gpa = round(sum(course_gpas)/len(course_gpas),2)
         return final_gpa
     except:
         raise TypeError
+
+def list_of_course_gpas(grades):
+    course_gpas = list()
+    for grade in grades:
+        gpa = class_gpa_claculator(grade)
+        course_gpas.append(gpa)
+    return course_gpas
+
+def final_gpa_calculator(grades):
+    """takes list of grades and calculates overall gpa by feeding into overall_gpa_calculator function and returns final GPA"""
+    return overall_gpa_calculator(list_of_course_gpas(grades))
