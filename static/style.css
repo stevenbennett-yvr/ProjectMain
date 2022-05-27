@@ -1,3 +1,4 @@
+/* Colors % font sizes*/
 :root {
     --not-white: #fffaf3;
     --drk-white: #f2e9e1;
@@ -7,50 +8,16 @@
     --not-green: #1abc9c;
     --not-grey:  #2c3e50;
     --muted:     #6e6a86;
+    --white:     #FFFFFF;
     --hdr-hght:  5rem;
     --lrg-txt:   2rem;
     --sml-txt:  1.5rem;
-  }
+}
 
+
+/* Page backgrounds */
 html {
-    background-color:#2c3e50;
-}
-
-button {
-    border-radius: 8px;
-    background-color: white;
-    border: solid var(--not-grey);
-}
-
-label {
-    font-family: 'Roboto Slab', serif;
-    margin-right: 10px;
-    color: white;
-}
-
-#buttons {
- display: flex;
- flex-direction: column;
- align-content:space-between;
-}
-
-#submit-button,
- #add-course-field,
-  #remove-course-field,
-   #save-button {
-    padding: 5px;
-    margin:5px;
-}
-
-#submit-button:hover,
- #add-course-field:hover,
-  #remove-course-field:hover,
-   #save-button:hover {
-    border: solid var(--not-green);
-}
-
-li {
-    list-style-type: none;
+    background-color: var(--not-grey);
 }
 
 body {
@@ -60,62 +27,12 @@ body {
 }
 
 
-h1 {
-    top: 0%;
-    font-size: var(--lrg-txt);
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
-}
-
-h2 {
-    text-align: center;
-    color: var(--not-black);
-}
-
-h3 {
-    text-align: center;
-    color: white;
-}
-
-
-#usernamearea {
-    display: flex;
-    flex-direction: column;
-}
-
-#gradesarea {
-    align-self: center;
-    width: 450px;
-    padding: 40px;
-    background: var(--not-blue);
-    box-sizing: border-box;
-    border-radius: 10px;
-    height: fit-content;
-}
-
-ul {
-    padding:0px;
-}
-
-.textBox {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: var(--sml-txt);
-}
-
-.textBox label {
-    padding-top: 30px;
-    color: var(--not-black);
-}
-
-
+/* Nav bar */
 nav {
     position: relative;
     width: fit-content;
     height: fit-content;
-    background-color: #34495e;
+    background-color: var(--not-blue);
     border-radius: 8px;
     font-size: 0;
     margin-bottom: 20px;
@@ -131,11 +48,10 @@ nav a {
     text-decoration: none;
     text-transform: uppercase;
     text-align: center;
-    color: white;
+    color: var(--white);
     cursor: pointer;
     margin: 1rem;
 }
-
 
 .nav-list * {
     -webkit-box-sizing: border-box;
@@ -153,7 +69,7 @@ nav a {
 
 .nav-list a {
     padding: 0.3em 0;
-    color: white;
+    color: var(--white);
     position: relative;
     text-decoration: none;
     display: inline-block;
@@ -181,7 +97,7 @@ nav a {
  }
 
 .nav-list a:hover {
-    color: #ffffff;
+    color: var(--white);
 }
 
 .nav-list a:hover:before,
@@ -190,6 +106,160 @@ nav a {
 }
 
 
+/* Buttons */
+button {
+    border-radius: 8px;
+    background-color: var(--white);
+    border: solid var(--not-grey);
+}
+
+.btn {
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    padding: 14px 40px;
+}
+
+.btn:hover {
+    border: solid var(--not-green);
+}
+
+#buttons {
+ display: flex;
+ flex-direction: column;
+ align-content:space-between;
+}
+
+#delete-button,
+#edit-button {
+    border-radius: 0%;
+    border: 1px solid rgba(255,255,255,.5);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+#submit-button,
+#add-course-field,
+#remove-course-field,
+#save-button {
+    padding: 5px;
+    margin:5px;
+}
+
+#submit-button:hover,
+#add-course-field:hover,
+#remove-course-field:hover,
+#save-button:hover {
+    border: solid var(--not-green);
+}
+
+#submit-btn {
+    display: flex;
+    justify-content: center;
+}
+
+
+/* Text */
+h1 {
+    top: 0%;
+    font-size: var(--lrg-txt);
+    color: var(--white);
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    color: var(--not-black);
+}
+
+h3 {
+    text-align: center;
+    color: var(--white);
+}
+
+ul {
+    padding:0px;
+}
+
+li {
+    list-style-type: none;
+}
+
+p {
+    color: var(--white);
+    text-align: center;
+}
+
+
+/* inputs */
+.form-group {
+    margin: 15px;
+    text-align: center;
+}
+
+.form-control {
+    margin: auto;
+}
+
+label {
+    font-family: 'Roboto Slab', serif;
+    margin-right: 10px;
+    color: var(--white);
+}
+
+
+/* gpa_calc.html & edit_term.html*/
+#courses {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+
+.course-grade-area {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 10px;
+
+}
+
+#grades {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+
+#gradesarea {
+    align-self: center;
+    width: 450px;
+    padding: 40px;
+    background: var(--not-blue);
+    box-sizing: border-box;
+    border-radius: 10px;
+    height: fit-content;
+}
+
+.gradesarea-headings {
+    display: flex;
+    justify-content: space-around;
+}
+
+.gpa-area {
+    background-color: var(--white);
+    border: solid var(--not-grey);
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.gpa-area p, .gpa-area h3 {
+    color: var(--not-black);
+    text-align: center;
+}
+
+
+/* login.html */
 .login-area {
     align-self: center;
     width: fit-content;
@@ -201,61 +271,19 @@ nav a {
     height: 350px;
 }
 
-.form-group {
-    margin: 15px;
-    text-align: center;
+#register-link a {
+    color: var(--white);
+    margin-top: 15px;
+    margin-left: 5px;
 }
 
-p {
-    color: white;
-    text-align: center;
-}
-
-.form-control {
-    margin: auto;
-}
-
-.btn {
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    padding: 14px 40px;
-}
-
-#submit-btn {
+#register-link {
     display: flex;
     justify-content: center;
 }
-  
-.btn:hover {
-    border: solid var(--not-green);
-    /* color: white; */
-}
 
-.course-grade-area {
-    display: flex;
-    justify-content: space-between;
-    padding-right: 10px;
 
-}
-
-.gradesarea-headings {
-    display: flex;
-    justify-content: space-around;
-}
-
-.gpa-area {
-    background-color: white;
-    border: solid #2c3e50;
-    border-radius: 6px;
-    margin-top: 15px;
-}
-
-.gpa-area p, .gpa-area h3 {
-    color: #191724;
-    text-align: center;
-}
-
+/* registration.html */
 .register-area {
     align-self: center;
     width: 450px;
@@ -263,6 +291,27 @@ p {
     background: var(--not-blue);
     box-sizing: border-box;
     border-radius: 10px;
+}
+
+
+/* homepage.html */
+.gradeslistarea {
+    display: flex;
+    justify-content: flex-start;
+    text-align: center;
+}
+
+.grades-list {
+    background-color: var(--white);
+    border: solid var(--not-grey);
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.grades-list li,
+.grades-list p,
+.grades-list h3 {
+    color: var(--not-black);
 }
 
 .saved-grades {
@@ -278,57 +327,11 @@ p {
     height: fit-content;
 }
 
-.grades-list {
-    background-color: white;
-    border: solid #2c3e50;
-    border-radius: 6px;
-    margin-top: 15px;
-}
-
-.grades-list li,
-.grades-list p,
-.grades-list h3 {
-    color: var(--not-black);
-}
-
-#courses {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    gap: 10px;
-}
-
-#grades {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    gap: 10px;
-}
-
 .saved-grades a {
-    color:white;
+    color:var(--white);
 }
 
-#register-link a {
-    color: white;
-    margin-top: 15px;
-    margin-left: 5px;
-}
 
-#register-link {
-    display: flex;
-    justify-content: center;
-}
 
-.gradeslistarea {
-    display: flex;
-    justify-content: flex-start;
-    text-align: center;
-}
 
-#delete-button, #edit-button {
-    border-radius: 0%;
-    border: 1px solid rgba(255,255,255,.5);
-    text-decoration: underline;
-    font-weight: bold;
-}
+
